@@ -3,6 +3,7 @@ build/
 DerivedData/
 xcuserdata/
 
-# игнорирований расширений
+
+# игнорирование расширений
 *.xccheckout
 *.xcscmblueprint
