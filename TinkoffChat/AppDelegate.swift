@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var stringOfPreviousState: String = "not running"
     
+    // логи печатаются, если выбрана конфигурация сборки - Debug (Задание со звёздочкой)
     func printStateLog(_ functionName: String, from firstStatement: String, to secondStatement: String, didMoved: Bool){
         #if DEBUG
         if didMoved {

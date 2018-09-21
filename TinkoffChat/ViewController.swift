@@ -10,15 +10,52 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        printLog(name: #function)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        printLog(name: #function)
     }
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        printLog(name: #function)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        printLog(name: #function)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidLayoutSubviews()
+        
+        printLog(name: #function)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        printLog(name: #function)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        printLog(name: #function)
+    }
 }
 
+public func printLog(name: String) {
+    #if DEBUG
+    print(name)
+    #endif
+}
