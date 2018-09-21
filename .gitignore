@@ -1,0 +1,8 @@
+# игнорирование директорий
+build/
+DerivedData/
+xcuserdata/
+
+# игнорирований расширений
+*.xccheckout
+*.xcscmblueprint
