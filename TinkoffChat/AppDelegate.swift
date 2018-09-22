@@ -13,49 +13,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var stringOfPreviousState: String = "not running"
+    let logger = Logger.shared
     
-    // логи печатаются, если выбрана конфигурация сборки - Debug (Задание со звёздочкой)
-    func printStateLog(_ functionName: String, from firstStatement: String, to secondStatement: String, didMoved: Bool){
-        #if DEBUG
-        if didMoved {
-            print("Application moved from \(firstStatement) to \(secondStatement): \(functionName)")
-        } else {
-            print("Application will move from \(firstStatement) to \(secondStatement): \(functionName)")
-        }
-        stringOfPreviousState = secondStatement
-        #endif
-    }
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        printStateLog(#function, from: stringOfPreviousState, to: "\(UIApplication.shared.applicationState)", didMoved: true)
+        logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         
-        printStateLog(#function, from: "\(UIApplication.shared.applicationState)", to: "inactive", didMoved: false)
+        logger.printStateLog(#function, to: "inactive", didMoved: false)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        printStateLog(#function, from: stringOfPreviousState, to: "\(UIApplication.shared.applicationState)", didMoved: true)
+        logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         
-        printStateLog(#function, from: "\(UIApplication.shared.applicationState)", to: "inactive", didMoved: false)
+        logger.printStateLog(#function, to: "inactive", didMoved: false)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         
-        printStateLog(#function, from: stringOfPreviousState, to: "\(UIApplication.shared.applicationState)", didMoved: true)
+        logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         
-        printStateLog(#function, from: "\(UIApplication.shared.applicationState)", to: "not running", didMoved: false)
+        logger.printStateLog(#function, to: "not running", didMoved: false)
     }
 
 

@@ -14,6 +14,7 @@
 		39CD89B52153E2A000D7A2BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39CD89B32153E2A000D7A2BA /* LaunchScreen.storyboard */; };
 		39CD89EB2154E7EE00D7A2BA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 39CD89EA2154E7EE00D7A2BA /* .gitignore */; };
 		39CD89F521554BB600D7A2BA /* CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD89F421554BB600D7A2BA /* CustomStringConvertible.swift */; };
+		39CD89FC2156495900D7A2BA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD89FB2156495900D7A2BA /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		39CD89E32153FB4400D7A2BA /* TinkoffChat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TinkoffChat copy-Info.plist"; path = "/Users/timur/Projects/TinkoffChat/TinkoffChat copy-Info.plist"; sourceTree = "<absolute>"; };
 		39CD89EA2154E7EE00D7A2BA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		39CD89F421554BB600D7A2BA /* CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStringConvertible.swift; sourceTree = "<group>"; };
+		39CD89FB2156495900D7A2BA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				39CD89B32153E2A000D7A2BA /* LaunchScreen.storyboard */,
 				39CD89B62153E2A000D7A2BA /* Info.plist */,
 				39CD89F621554BBC00D7A2BA /* UIApplicationState extensions */,
+				39CD89FB2156495900D7A2BA /* Logger.swift */,
 			);
 			path = TinkoffChat;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				39CD89F521554BB600D7A2BA /* CustomStringConvertible.swift in Sources */,
 				39CD89AD2153E29F00D7A2BA /* ViewController.swift in Sources */,
 				39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */,
+				39CD89FC2156495900D7A2BA /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

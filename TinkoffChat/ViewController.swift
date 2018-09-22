@@ -10,52 +10,47 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let logger = Logger.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidLayoutSubviews()
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        printLog(name: #function)
+        logger.printLog(name: #function)
     }
-}
-
-public func printLog(name: String) {
-    #if DEBUG
-    print(name)
-    #endif
 }
