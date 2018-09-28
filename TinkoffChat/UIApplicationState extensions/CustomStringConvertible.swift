@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIApplicationState: CustomStringConvertible {
+extension UIApplication.State: CustomStringConvertible {
     public var description: String {
         switch self {
         case .active:
