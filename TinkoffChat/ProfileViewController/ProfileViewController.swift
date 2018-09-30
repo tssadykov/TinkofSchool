@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ProfileViewController: UIViewController {
 
@@ -36,13 +37,13 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
         print(editProfileButton.frame) // frame с размерами из Storyboard
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidLayoutSubviews()
         
+        setupViews()
         print(editProfileButton.frame) // frame с размерами после выполнения Auto layout
     }
 
@@ -90,10 +91,10 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Private functions
     private func setupViews(){
-        avatarOfUserImageView.layer.cornerRadius = 35
+        avatarOfUserImageView.layer.cornerRadius = cameraIconView.frame.width*0.5
         avatarOfUserImageView.clipsToBounds = true
         
-        cameraIconView.layer.cornerRadius = 35
+        cameraIconView.layer.cornerRadius = cameraIconView.frame.width*0.5
         cameraIconView.clipsToBounds = true
         
         editProfileButton.layer.cornerRadius = 10
@@ -101,4 +102,5 @@ class ProfileViewController: UIViewController {
         editProfileButton.layer.borderWidth = 2.0
         editProfileButton.clipsToBounds = true
     }
+    
 }
