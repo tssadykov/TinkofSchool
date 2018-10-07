@@ -39,10 +39,14 @@ class ProfileViewController: UIViewController {
         print(editProfileButton.frame) // frame с размерами из Storyboard
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         setupViews()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         print(editProfileButton.frame) // frame с размерами после выполнения Auto layout
     }
 
@@ -86,6 +90,10 @@ class ProfileViewController: UIViewController {
         }
         
         present(photoPickerAlertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Private functions
