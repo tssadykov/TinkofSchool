@@ -12,7 +12,7 @@
 		398A8F312167D94F00FB7EF1 /* Conversation TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */; };
 		399C3CA82166281500237FC4 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CA72166281500237FC4 /* Conversation.swift */; };
 		399C3CAA2166291D00237FC4 /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CA92166291D00237FC4 /* ConversationListViewController.swift */; };
-		399C3CAC2166805000237FC4 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CAB2166805000237FC4 /* TableViewDataSource.swift */; };
+		399C3CAC2166805000237FC4 /* ConversationList TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CAB2166805000237FC4 /* ConversationList TableView.swift */; };
 		399C3CAE216681BF00237FC4 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CAD216681BF00237FC4 /* ConversationTableViewCell.swift */; };
 		399C3CB221668AB400237FC4 /* ConversationCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CB121668AB400237FC4 /* ConversationCellConfiguration.swift */; };
 		399C3CBB21673FCD00237FC4 /* MessageCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CBA21673FCD00237FC4 /* MessageCellConfiguration.swift */; };
@@ -33,7 +33,7 @@
 		398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversation TableView.swift"; sourceTree = "<group>"; };
 		399C3CA72166281500237FC4 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		399C3CA92166291D00237FC4 /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
-		399C3CAB2166805000237FC4 /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		399C3CAB2166805000237FC4 /* ConversationList TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationList TableView.swift"; sourceTree = "<group>"; };
 		399C3CAD216681BF00237FC4 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		399C3CB121668AB400237FC4 /* ConversationCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellConfiguration.swift; sourceTree = "<group>"; };
 		399C3CBA21673FCD00237FC4 /* MessageCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellConfiguration.swift; sourceTree = "<group>"; };
@@ -63,12 +63,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3908C40A216A782000DE2F1C /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		398A8F2D2167BD0500FB7EF1 /* ConversationViewController */ = {
 			isa = PBXGroup;
 			children = (
 				398A8F2B2167B9E700FB7EF1 /* ConversationViewController.swift */,
 				398A8F2E2167CF4100FB7EF1 /* MessageTableViewCell.swift */,
-				398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */,
+				3908C40A216A782000DE2F1C /* extension */,
 			);
 			path = ConversationViewController;
 			sourceTree = "<group>";
@@ -113,7 +121,7 @@
 		399C3CB921673E5800237FC4 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				399C3CAB2166805000237FC4 /* TableViewDataSource.swift */,
+				399C3CAB2166805000237FC4 /* ConversationList TableView.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -253,7 +261,7 @@
 				399C3CA82166281500237FC4 /* Conversation.swift in Sources */,
 				39CD89F521554BB600D7A2BA /* CustomStringConvertible.swift in Sources */,
 				398A8F2C2167B9E700FB7EF1 /* ConversationViewController.swift in Sources */,
-				399C3CAC2166805000237FC4 /* TableViewDataSource.swift in Sources */,
+				399C3CAC2166805000237FC4 /* ConversationList TableView.swift in Sources */,
 				399C3CB221668AB400237FC4 /* ConversationCellConfiguration.swift in Sources */,
 				399C3CBB21673FCD00237FC4 /* MessageCellConfiguration.swift in Sources */,
 				39CD89AD2153E29F00D7A2BA /* ProfileViewController.swift in Sources */,
