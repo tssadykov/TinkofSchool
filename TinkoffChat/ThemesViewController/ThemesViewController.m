@@ -7,7 +7,8 @@
 //
 
 #import "ThemesViewController.h"
-
+#import "Themes.h"
+#import "ThemesViewControllerDelegate.h"
 @implementation ThemesViewController
 
 - (void)viewDidLoad {

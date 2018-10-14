@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ThemesViewControllerDelegate.h"
-#import "Themes.h"
-
+@class Themes;
+@protocol ThemesViewControllerDelegate;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ThemesViewController : UIViewController
@@ -18,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
     Themes* _model;
     IBOutletCollection(UIButton) NSArray *themesButtons;
 }
-@property (assign, nonatomic) id<ThemesViewControllerDelegate> delegate;
+@property (weak, nonatomic) id<ThemesViewControllerDelegate> delegate;
 
 - (IBAction)themeButtonTapped:(UIButton *)sender;
 
