@@ -18,7 +18,7 @@
 		399C3CAE216681BF00237FC4 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CAD216681BF00237FC4 /* ConversationTableViewCell.swift */; };
 		399C3CB221668AB400237FC4 /* ConversationCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CB121668AB400237FC4 /* ConversationCellConfiguration.swift */; };
 		399C3CBB21673FCD00237FC4 /* MessageCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C3CBA21673FCD00237FC4 /* MessageCellConfiguration.swift */; };
-		39B4E56C217333CD00772481 /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39044E16216FB52500B89573 /* ThemesViewController.m */; };
+		39B4E56E21735C8000772481 /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39044E16216FB52500B89573 /* ThemesViewController.m */; };
 		39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD89AA2153E29F00D7A2BA /* AppDelegate.swift */; };
 		39CD89AD2153E29F00D7A2BA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD89AC2153E29F00D7A2BA /* ProfileViewController.swift */; };
 		39CD89B02153E29F00D7A2BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39CD89AE2153E29F00D7A2BA /* Main.storyboard */; };
@@ -150,6 +150,7 @@
 		39B4E569217328E900772481 /* ThemesViewController */ = {
 			isa = PBXGroup;
 			children = (
+				39044E1B216FB82800B89573 /* ThemesViewControllerDelegate.h */,
 				39B4E556217238D500772481 /* ThemesViewController.swift */,
 				39044E15216FB52500B89573 /* ThemesViewController.h */,
 				39044E16216FB52500B89573 /* ThemesViewController.m */,
@@ -190,7 +191,6 @@
 				398A8F2D2167BD0500FB7EF1 /* ConversationViewController */,
 				39B4E569217328E900772481 /* ThemesViewController */,
 				39044E14216FB52500B89573 /* TinkoffChat-Bridging-Header.h */,
-				39044E1B216FB82800B89573 /* ThemesViewControllerDelegate.h */,
 			);
 			path = TinkoffChat;
 			sourceTree = "<group>";
@@ -306,7 +306,7 @@
 				39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */,
 				39CD89FC2156495900D7A2BA /* Logger.swift in Sources */,
 				39044E1D216FC49500B89573 /* ThemesVC delegate.swift in Sources */,
-				39B4E56C217333CD00772481 /* ThemesViewController.m in Sources */,
+				39B4E56E21735C8000772481 /* ThemesViewController.m in Sources */,
 				39DDEB73215D36880028EC77 /* ImagePickerDelegate.swift in Sources */,
 				398A8F312167D94F00FB7EF1 /* Conversation TableView.swift in Sources */,
 				399C3CAE216681BF00237FC4 /* ConversationTableViewCell.swift in Sources */,

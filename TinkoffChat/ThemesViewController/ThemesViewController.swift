@@ -21,31 +21,25 @@ class ThemesViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.backgroundColor = navigationController?.navigationBar.barTintColor
+    }
+    
     @IBAction func themeButtonTapped(_ sender: UIButton) {
-        //.indexof
         if sender == themesButtons[0] {
             colorHandler(model.theme1)
             navigationController?.navigationBar.barTintColor = model.theme1
+            view.backgroundColor = model.theme1
         } else if sender == themesButtons[1] {
             colorHandler(model.theme2)
             navigationController?.navigationBar.barTintColor = model.theme2
+            view.backgroundColor = model.theme2
         } else {
             colorHandler(model.theme3)
             navigationController?.navigationBar.barTintColor = model.theme3
+            view.backgroundColor = model.theme3
         }
     }
-    
-    deinit {
-        print("DEINIT")
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

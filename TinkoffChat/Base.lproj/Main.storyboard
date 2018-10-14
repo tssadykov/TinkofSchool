@@ -359,24 +359,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="C2J-1a-avs">
-                                <rect key="frame" x="135" y="207" width="50" height="154"/>
+                                <rect key="frame" x="96" y="207" width="128" height="154"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBW-0K-oEd">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
+                                    <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBW-0K-oEd">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Тема 1"/>
                                         <connections>
                                             <action selector="themeButtonTapped:" destination="hE9-xl-KVS" eventType="touchUpInside" id="r0y-u2-5RX"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agZ-xh-3z2">
-                                        <rect key="frame" x="0.0" y="62" width="50" height="30"/>
+                                    <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="agZ-xh-3z2">
+                                        <rect key="frame" x="0.0" y="62" width="128" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Тема 2"/>
                                         <connections>
                                             <action selector="themeButtonTapped:" destination="hE9-xl-KVS" eventType="touchUpInside" id="vVW-l9-AeC"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WA2-xN-594">
-                                        <rect key="frame" x="0.0" y="124" width="50" height="30"/>
+                                    <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WA2-xN-594">
+                                        <rect key="frame" x="0.0" y="124" width="128" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Тема 3"/>
                                         <connections>
                                             <action selector="themeButtonTapped:" destination="hE9-xl-KVS" eventType="touchUpInside" id="ScU-ak-nTS"/>
@@ -387,6 +390,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="yBW-0K-oEd" firstAttribute="width" secondItem="I3w-kz-CnM" secondAttribute="width" multiplier="0.4" id="1e7-g4-Zp2"/>
                             <constraint firstItem="C2J-1a-avs" firstAttribute="centerX" secondItem="I3w-kz-CnM" secondAttribute="centerX" id="m9B-f6-hN2"/>
                             <constraint firstItem="C2J-1a-avs" firstAttribute="centerY" secondItem="I3w-kz-CnM" secondAttribute="centerY" id="y8j-lh-k6O"/>
                         </constraints>
