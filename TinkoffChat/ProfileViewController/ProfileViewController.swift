@@ -44,6 +44,7 @@ class ProfileViewController: UIViewController {
         
         setupViews()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -92,9 +93,6 @@ class ProfileViewController: UIViewController {
         present(photoPickerAlertController, animated: true, completion: nil)
     }
     
-    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
     
     //MARK: - Private functions
     private func setupViews(){
@@ -109,5 +107,4 @@ class ProfileViewController: UIViewController {
         editProfileButton.layer.borderWidth = 2.0
         editProfileButton.clipsToBounds = true
     }
-    
 }

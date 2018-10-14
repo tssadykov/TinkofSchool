@@ -9,7 +9,6 @@
 import UIKit
 
 class ConversationListViewController: UIViewController {
-
     @IBOutlet private var tableView: UITableView!
     var conversations: [Conversation] = [Conversation(name: "Алексей", message: "Привет", date: Date(timeIntervalSinceNow: -130968888800000), online: true, hasUnreadMessages: false, messageHistory: [Conversation.Message.incoming("Привет")]),
                                          Conversation(name: "Илья", message: "Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать", date: Date(timeIntervalSinceNow: -600), online: true, hasUnreadMessages: true, messageHistory: [Conversation.Message.incoming("Привет! Как дела? Как погода?"), Conversation.Message.outgoing("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать"),Conversation.Message.incoming("Привет! Как дела? Как погода?"), Conversation.Message.outgoing("прив"),Conversation.Message.incoming("норм"), Conversation.Message.outgoing("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать"),Conversation.Message.incoming("Привет! Как дела? Как погода?"), Conversation.Message.outgoing("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать"),Conversation.Message.incoming("Привет! Как дела? Как погода?"), Conversation.Message.outgoing("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать"),Conversation.Message.outgoing("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать"),Conversation.Message.incoming("Привет! Раз два три четыре пять шесть семь восемь девять десят одиннадцать двенадцать")]),
@@ -80,9 +79,22 @@ class ConversationListViewController: UIViewController {
             let backButton = UIBarButtonItem()
             backButton.title = "Назад"
             navigationItem.backBarButtonItem = backButton
+        } else if segue.identifier == "ThemesSegue" {
+            guard let themesNVC = segue.destination as? UINavigationController, let themesVC = themesNVC.viewControllers.first as? ThemesViewController else { return }
+            themesVC.delegate = self
+            /*themesVC.colorHandler = { (selectedTheme: UIColor) -> Void in
+                UINavigationBar.appearance().barTintColor = selectedTheme
+                guard let colorData =  try? NSKeyedArchiver.archivedData(withRootObject: selectedTheme, requiringSecureCoding: false) else { return }
+                UserDefaults.standard.set(colorData, forKey: "Theme")
+                Logger.shared.logThemeChanged(selectedTheme: selectedTheme)
+            }*/
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
 
+    @IBAction func unwindToConversationList(unwindSegue: UIStoryboardSegue) {
+        
+    }
+    
 }

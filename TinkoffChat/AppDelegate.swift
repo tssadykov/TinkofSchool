@@ -16,7 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let logger = Logger.shared
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+        if let themeData = UserDefaults.standard.value(forKey: "Theme") as? Data, let theme = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(themeData) as? UIColor {
+            UINavigationBar.appearance().barTintColor = theme
+        } else {
+            UINavigationBar.appearance().barTintColor = UIColor.blue
+        }
         logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
         return true
     }
