@@ -12,7 +12,11 @@ import UIKit
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let userPhoto = info[.originalImage] as? UIImage else { return }
-        avatarOfUserImageView.image = userPhoto
+        if profile.userImage != userPhoto {
+            avatarOfUserImageView.image = userPhoto
+            gcdButton.isEnabled = true
+            operationButton.isEnabled = true
+        }
         isPhotoSelected = true
         dismiss(animated: true, completion: nil)
     }

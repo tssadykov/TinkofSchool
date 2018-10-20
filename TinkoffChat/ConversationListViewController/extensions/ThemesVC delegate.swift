@@ -12,8 +12,10 @@ extension ConversationListViewController: ThemesViewControllerDelegate {
     func themesViewController(_ controller: ThemesViewController, didSelect selectedTheme: UIColor) {
         controller.view.backgroundColor = selectedTheme
         UINavigationBar.appearance().barTintColor = selectedTheme
-        guard let colorData =  try? NSKeyedArchiver.archivedData(withRootObject: selectedTheme, requiringSecureCoding: false) else { return }
-        UserDefaults.standard.set(colorData, forKey: "Theme")
+        DispatchQueue.global(qos: .utility).async {
+            guard let colorData =  try? NSKeyedArchiver.archivedData(withRootObject: selectedTheme, requiringSecureCoding: false) else { return }
+            UserDefaults.standard.set(colorData, forKey: "Theme")
+        }
         Logger.shared.logThemeChanged(selectedTheme: selectedTheme)
     }
     

@@ -15,28 +15,58 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var descriptionOfUserLabel: UILabel!
     @IBOutlet weak var editProfileButton: UIButton!
     @IBOutlet weak var cameraIconView: UIView!
-    
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var descriptionOfUserTextField: UITextField!
+    @IBOutlet var gcdButton: UIButton!
+    @IBOutlet var operationButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var scrollView: UIScrollView!
+    var dataManager: DataManager!
+    var operationDataManager = OperationDataManager()
+    var profile: Profile!
+    let gcdDataManager = GCDDataManager()
     var isPhotoSelected: Bool = false
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        //print(editProfileButton.frame)
-        //frame в init не доступен, так как view ещё не загрузилась
+    var isSaving: Bool = false
+    var isEdit: Bool = false {
+        didSet {
+            cameraIconView.isHidden = !cameraIconView.isHidden
+            nameTextField.isHidden = !nameTextField.isHidden
+            gcdButton.isHidden = !gcdButton.isHidden
+            operationButton.isHidden = !operationButton.isHidden
+            descriptionOfUserTextField.isHidden = !descriptionOfUserTextField.isHidden
+            attributesOfNameLabel[.font] = isEdit ? UIFont(name: "Helvetica", size: 17)! : UIFont(name: "Helvetica", size: 27)!
+            attributesOfNameLabel[.foregroundColor] = isEdit ? UIColor.lightGray : UIColor.black
+            attributesOfDescriptionLabel[.font] = isEdit ? UIFont(name: "Helvetica", size: 17)! : UIFont(name: "Helvetica", size: 27)!
+            if isEdit {
+                gcdButton.isEnabled = false
+                operationButton.isEnabled = false
+                editProfileButton.setTitle("Отменить редактирование", for: .normal)
+                attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 17)!
+                attributesOfNameLabel[.foregroundColor] = UIColor.lightGray
+                attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
+                nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя", attributes: attributesOfNameLabel)
+                descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе", attributes: attributesOfDescriptionLabel)
+                nameTextField.placeholder = "Укажите имя"
+                descriptionOfUserTextField.placeholder = "Опишите себя"
+                nameTextField.text = profile.name
+                descriptionOfUserTextField.text = profile.description
+            } else {
+                editProfileButton.setTitle("Редактировать", for: .normal)
+                updateUI()
+            }
+        }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        //print(editProfileButton.frame)
-        //frame в init не доступен, так как view ещё не загрузилась
-    }
+    var attributesOfNameLabel: [NSAttributedString.Key : Any] = [.font : UIFont(name: "Helvetica", size: 27)!, .foregroundColor : UIColor.black]
+    var attributesOfDescriptionLabel: [NSAttributedString.Key : Any] = [.font : UIFont(name: "Helvetica", size: 27)!, .foregroundColor : UIColor.lightGray]
     
     // MARK: - Life Cycle ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(editProfileButton.frame) // frame с размерами из Storyboard
+   
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(gesture:)))
+        view.addGestureRecognizer(tapGesture)
+        loadProfile()
     }
 
     override func viewDidLayoutSubviews() {
@@ -44,17 +74,10 @@ class ProfileViewController: UIViewController {
         
         setupViews()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print(editProfileButton.frame) // frame с размерами после выполнения Auto layout
-    }
-
+   
     //MARK: - User Activity
     
     @IBAction func cameraIconTapped(_ sender: UITapGestureRecognizer) {
-        print("Выбери изображение профиля")
         
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -85,6 +108,10 @@ class ProfileViewController: UIViewController {
             let deleteAlertAction = UIAlertAction(title: "Удалить фотографию", style: .destructive) { [weak self] action in
                 guard let `self` = self else { return }
                 self.avatarOfUserImageView.image = UIImage(named: "placeholder-user")
+                if self.profile.userImage != UIImage(named: "placeholder-user")! {
+                    self.gcdButton.isEnabled = true
+                    self.operationButton.isEnabled = true
+                }
                 self.isPhotoSelected = false
             }
             photoPickerAlertController.addAction(deleteAlertAction)
@@ -92,6 +119,28 @@ class ProfileViewController: UIViewController {
         
         present(photoPickerAlertController, animated: true, completion: nil)
     }
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        isEdit = !isEdit
+    }
+    
+    @IBAction func gcdButtonTapped(_ sender: UIButton) {
+        dataManager = gcdDataManager
+        saveProfile()
+    }
+    
+    @IBAction func operationButtonTapped(_ sender: UIButton) {
+        dataManager = operationDataManager
+        saveProfile()
+    }
+    @IBAction func nameTextChanged(_ sender: UITextField) {
+        handleEnablingSaveButtons()
+    }
+    
+    @IBAction func descriptionTextChanged(_ sender: UITextField) {
+        handleEnablingSaveButtons()
+    }
+    
     
     
     //MARK: - Private functions
@@ -106,5 +155,88 @@ class ProfileViewController: UIViewController {
         editProfileButton.layer.borderColor = UIColor.black.cgColor
         editProfileButton.layer.borderWidth = 2.0
         editProfileButton.clipsToBounds = true
+    }
+    
+    private func handleEnablingSaveButtons() {
+        gcdButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description))
+        operationButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description))
+    }
+    
+    @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    private func loadProfile() {
+        editProfileButton.isHidden = true
+        dataManager = operationDataManager
+        activityIndicator.startAnimating()
+        registerNotifications()
+        gcdDataManager.getProfile { (profile) in
+            self.profile = profile
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+            self.editProfileButton.isHidden = false
+            self.updateUI()
+        }
+    }
+    
+    private func updateUI() {
+        nameOfUserLabel.attributedText = NSAttributedString(string: profile.name, attributes: attributesOfNameLabel)
+        descriptionOfUserLabel.attributedText = NSAttributedString(string: profile.description, attributes: attributesOfDescriptionLabel)
+        avatarOfUserImageView.image = profile.userImage
+    }
+    
+    private func saveProfile() {
+        isSaving = true
+        gcdButton.isEnabled = false
+        operationButton.isEnabled = false
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        let newProfile = Profile(name: nameTextField.text!, description: descriptionOfUserTextField.text!, userImage: avatarOfUserImageView.image!)
+        dataManager.saveProfile(new: newProfile, old: profile) { (error) in
+            if error == nil {
+                self.profile = newProfile
+                let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ок", style: .default) { action in
+                    self.isEdit = false
+                }
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
+                let repeatAction = UIAlertAction(title: "Повтор", style: .default) { action in
+                    self.saveProfile()
+                }
+                alert.addAction(okAction)
+                alert.addAction(repeatAction)
+                self.present(alert, animated: true, completion: nil)
+            }
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+            self.gcdButton.isEnabled = true
+            self.operationButton.isEnabled = true
+            self.isSaving = false
+        }
+    }
+    
+    private func registerNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWiilHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWasShown(_ notification: NSNotification) {
+        guard let info = notification.userInfo, let keyboardFrameValue = info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let keyboardInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        scrollView.contentInset = keyboardInsets
+        scrollView.scrollIndicatorInsets = keyboardInsets
+    }
+    
+    
+    @objc private func keyboardWiilHidden() {
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }
