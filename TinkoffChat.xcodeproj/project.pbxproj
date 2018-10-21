@@ -29,9 +29,8 @@
 		39CD89FC2156495900D7A2BA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD89FB2156495900D7A2BA /* Logger.swift */; };
 		39DAF667217AFDAC0043394F /* GCDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF666217AFDAC0043394F /* GCDDataManager.swift */; };
 		39DAF669217B08610043394F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF668217B08610043394F /* Profile.swift */; };
-		39DAF66B217B0DF30043394F /* Saver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF66A217B0DF30043394F /* Saver.swift */; };
+		39DAF66B217B0DF30043394F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF66A217B0DF30043394F /* DataManager.swift */; };
 		39DAF66D217B77D60043394F /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF66C217B77D60043394F /* OperationDataManager.swift */; };
-		39DAF66F217B981E0043394F /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DAF66E217B981E0043394F /* AsyncOperation.swift */; };
 		39DDEB73215D36880028EC77 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DDEB72215D36880028EC77 /* ImagePickerDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,9 +64,8 @@
 		39CD89FB2156495900D7A2BA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		39DAF666217AFDAC0043394F /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
 		39DAF668217B08610043394F /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		39DAF66A217B0DF30043394F /* Saver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saver.swift; sourceTree = "<group>"; };
+		39DAF66A217B0DF30043394F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		39DAF66C217B77D60043394F /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
-		39DAF66E217B981E0043394F /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		39DDEB72215D36880028EC77 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
 		39DDEB75215D431A0028EC77 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		39DDEB76215D431A0028EC77 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -109,9 +107,8 @@
 				399C3CB02166898E00237FC4 /* Conversation */,
 				39DAF666217AFDAC0043394F /* GCDDataManager.swift */,
 				39DAF668217B08610043394F /* Profile.swift */,
-				39DAF66A217B0DF30043394F /* Saver.swift */,
+				39DAF66A217B0DF30043394F /* DataManager.swift */,
 				39DAF66C217B77D60043394F /* OperationDataManager.swift */,
-				39DAF66E217B981E0043394F /* AsyncOperation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,12 +312,11 @@
 				399C3CB221668AB400237FC4 /* ConversationCellConfiguration.swift in Sources */,
 				39044E1F21713F5300B89573 /* Themes.m in Sources */,
 				39DAF667217AFDAC0043394F /* GCDDataManager.swift in Sources */,
-				39DAF66B217B0DF30043394F /* Saver.swift in Sources */,
+				39DAF66B217B0DF30043394F /* DataManager.swift in Sources */,
 				399C3CBB21673FCD00237FC4 /* MessageCellConfiguration.swift in Sources */,
 				39CD89AD2153E29F00D7A2BA /* ProfileViewController.swift in Sources */,
 				398A8F2F2167CF4100FB7EF1 /* MessageTableViewCell.swift in Sources */,
 				399C3CAA2166291D00237FC4 /* ConversationListViewController.swift in Sources */,
-				39DAF66F217B981E0043394F /* AsyncOperation.swift in Sources */,
 				39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */,
 				39CD89FC2156495900D7A2BA /* Logger.swift in Sources */,
 				39044E1D216FC49500B89573 /* ThemesVC delegate.swift in Sources */,

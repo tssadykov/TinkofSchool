@@ -12,11 +12,8 @@ typealias CompletionSaveHandler = (Error?) -> Void
 typealias CompletionProfileLoader = (Profile) -> Void
 
 protocol DataManager {
-    /*func saveNameWith(_ name: String)
-    func saveDescriptionWith(_ description: String)
-    func saveImageWith(_ image: UIImage) throws*/
     func getProfile(completion: @escaping CompletionProfileLoader)
-    func saveProfile(new profile: Profile, old: Profile, completion: @escaping CompletionSaveHandler)
+    func saveProfile(newProfile: Profile, oldProfile: Profile, completion: @escaping CompletionSaveHandler)
 }
 
 enum ImageError: Error {

@@ -6,19 +6,15 @@
 //  Copyright © 2018 Тимур. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let userPhoto = info[.originalImage] as? UIImage else { return }
-        if profile.userImage != userPhoto {
-            avatarOfUserImageView.image = userPhoto
-            gcdButton.isEnabled = true
-            operationButton.isEnabled = true
-        }
+        avatarOfUserImageView.image = userPhoto
         isPhotoSelected = true
         dismiss(animated: true, completion: nil)
+        handleEnablingSaveButtons()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

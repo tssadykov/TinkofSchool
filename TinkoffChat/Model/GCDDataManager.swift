@@ -10,9 +10,10 @@ import Foundation
 
 struct GCDDataManager: DataManager {
     
-    var documentsDirectory: URL
-    var archiveURL: URL
-
+    let documentsDirectory: URL
+    let archiveURL: URL
+    let syncQueue = DispatchQueue(label: "com.tssadykov", qos: .userInitiated) // делаем очередь последовательной, чтобы избежать race condition, т.к. если попробовать загрузить профиль во время сохранения, может загрузиться старый профиль
+    
     init() {
         documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         archiveURL = documentsDirectory.appendingPathComponent("user_profile").appendingPathExtension("plist")
@@ -36,8 +37,7 @@ struct GCDDataManager: DataManager {
     }
     
     func getProfile(completion: @escaping CompletionProfileLoader){
-        DispatchQueue.global(qos: .utility).async {
-            sleep(3)
+        syncQueue.async {
             let name = UserDefaults.standard.string(forKey: "user_name") ?? "Без имени"
             let description = UserDefaults.standard.string(forKey: "user_description") ?? ""
             let image: UIImage
@@ -53,18 +53,17 @@ struct GCDDataManager: DataManager {
         }
     }
     
-    func saveProfile(new profile: Profile, old: Profile, completion: @escaping CompletionSaveHandler) {
-        DispatchQueue.global(qos: .utility).async {
-            sleep(3)
-            if profile.name != old.name {
-                self.saveNameWith(profile.name)
+    func saveProfile(newProfile: Profile, oldProfile: Profile, completion: @escaping CompletionSaveHandler) {
+        syncQueue.async {
+            if newProfile.name != oldProfile.name {
+                self.saveNameWith(newProfile.name)
             }
-            if profile.description != old.name {
-                self.saveDescriptionWith(profile.description)
+            if newProfile.description != oldProfile.name {
+                self.saveDescriptionWith(newProfile.description)
             }
-            if profile.userImage != old.userImage {
+            if newProfile.userImage.jpegData(compressionQuality: 1.0) != oldProfile.userImage.jpegData(compressionQuality: 1.0) {
                 do {
-                    try self.saveImageWith(profile.userImage)
+                    try self.saveImageWith(newProfile.userImage)
                 } catch let error {
                     DispatchQueue.main.async {
                         completion(error)

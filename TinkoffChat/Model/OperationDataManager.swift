@@ -12,19 +12,20 @@ struct OperationDataManager: DataManager {
     var documentsDirectory: URL
     var archiveURL: URL
     let operationQueue = OperationQueue()
-    let operationqewqe = OperationQueue.init
     
     init() {
         documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         archiveURL = documentsDirectory.appendingPathComponent("user_profile").appendingPathExtension("plist")
+        operationQueue.qualityOfService = .userInitiated
+        operationQueue.maxConcurrentOperationCount = 1 // делаем очередь последовательной, чтобы избежать race condition, т.к. если попробовать загрузить профиль во время сохранения, может загрузиться старый профиль
     }
     
-    func saveProfile(new profile: Profile, old: Profile, completion: @escaping CompletionSaveHandler) {
+    func saveProfile(newProfile: Profile, oldProfile: Profile, completion: @escaping CompletionSaveHandler) {
         let saveOperation = SaveProfileOperation()
         saveOperation.archiveURL = archiveURL
         saveOperation.completionHandler = completion
-        saveOperation.newProfile = profile
-        saveOperation.oldProfile = old
+        saveOperation.newProfile = newProfile
+        saveOperation.oldProfile = oldProfile
         operationQueue.addOperation(saveOperation)
     }
     
@@ -42,7 +43,6 @@ class ProfileLoadingOperation: Operation {
     var completionHandler: CompletionProfileLoader!
     
     override func main() {
-        sleep(3)
         let name = UserDefaults.standard.string(forKey: "user_name") ?? "Без имени"
         let description = UserDefaults.standard.string(forKey: "user_description") ?? ""
         let image: UIImage
@@ -63,7 +63,6 @@ class SaveProfileOperation: Operation {
     var archiveURL: URL!
     
     override func main() {
-        sleep(3)
         if newProfile.name != oldProfile.name {
             UserDefaults.standard.set(newProfile.name, forKey: "user_name")
         }
@@ -83,7 +82,9 @@ class SaveProfileOperation: Operation {
                 self.completionHandler(error)
             }
         }
-        self.completionHandler(nil)
+        OperationQueue.main.addOperation {
+            self.completionHandler(nil)
+        }
     }
 }
 

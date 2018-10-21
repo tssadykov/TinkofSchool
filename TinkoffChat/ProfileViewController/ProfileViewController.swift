@@ -34,9 +34,6 @@ class ProfileViewController: UIViewController {
             gcdButton.isHidden = !gcdButton.isHidden
             operationButton.isHidden = !operationButton.isHidden
             descriptionOfUserTextField.isHidden = !descriptionOfUserTextField.isHidden
-            attributesOfNameLabel[.font] = isEdit ? UIFont(name: "Helvetica", size: 17)! : UIFont(name: "Helvetica", size: 27)!
-            attributesOfNameLabel[.foregroundColor] = isEdit ? UIColor.lightGray : UIColor.black
-            attributesOfDescriptionLabel[.font] = isEdit ? UIFont(name: "Helvetica", size: 17)! : UIFont(name: "Helvetica", size: 27)!
             if isEdit {
                 gcdButton.isEnabled = false
                 operationButton.isEnabled = false
@@ -46,11 +43,12 @@ class ProfileViewController: UIViewController {
                 attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
                 nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя", attributes: attributesOfNameLabel)
                 descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе", attributes: attributesOfDescriptionLabel)
-                nameTextField.placeholder = "Укажите имя"
-                descriptionOfUserTextField.placeholder = "Опишите себя"
                 nameTextField.text = profile.name
                 descriptionOfUserTextField.text = profile.description
             } else {
+                attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 27)!
+                attributesOfNameLabel[.foregroundColor] = UIColor.black
+                attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 27)!
                 editProfileButton.setTitle("Редактировать", for: .normal)
                 updateUI()
             }
@@ -108,11 +106,8 @@ class ProfileViewController: UIViewController {
             let deleteAlertAction = UIAlertAction(title: "Удалить фотографию", style: .destructive) { [weak self] action in
                 guard let `self` = self else { return }
                 self.avatarOfUserImageView.image = UIImage(named: "placeholder-user")
-                if self.profile.userImage != UIImage(named: "placeholder-user")! {
-                    self.gcdButton.isEnabled = true
-                    self.operationButton.isEnabled = true
-                }
                 self.isPhotoSelected = false
+                self.handleEnablingSaveButtons()
             }
             photoPickerAlertController.addAction(deleteAlertAction)
         }
@@ -155,11 +150,21 @@ class ProfileViewController: UIViewController {
         editProfileButton.layer.borderColor = UIColor.black.cgColor
         editProfileButton.layer.borderWidth = 2.0
         editProfileButton.clipsToBounds = true
+        
+        gcdButton.layer.cornerRadius = 10
+        gcdButton.layer.borderColor = UIColor.black.cgColor
+        gcdButton.layer.borderWidth = 2.0
+        gcdButton.clipsToBounds = true
+        
+        operationButton.layer.cornerRadius = 10
+        operationButton.layer.borderColor = UIColor.black.cgColor
+        operationButton.layer.borderWidth = 2.0
+        operationButton.clipsToBounds = true
     }
     
-    private func handleEnablingSaveButtons() {
-        gcdButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description))
-        operationButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description))
+    func handleEnablingSaveButtons() {
+        gcdButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)))
+        operationButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)))
     }
     
     @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
@@ -176,6 +181,7 @@ class ProfileViewController: UIViewController {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
             self.editProfileButton.isHidden = false
+            self.isPhotoSelected = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)
             self.updateUI()
         }
     }
@@ -193,12 +199,16 @@ class ProfileViewController: UIViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         let newProfile = Profile(name: nameTextField.text!, description: descriptionOfUserTextField.text!, userImage: avatarOfUserImageView.image!)
-        dataManager.saveProfile(new: newProfile, old: profile) { (error) in
+        dataManager.saveProfile(newProfile: newProfile, oldProfile: profile) { (error) in
             if error == nil {
                 self.profile = newProfile
                 let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ок", style: .default) { action in
-                    self.isEdit = false
+                    if self.isEdit {
+                        self.isEdit = false
+                    } else {
+                        self.updateUI()
+                    }
                 }
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
