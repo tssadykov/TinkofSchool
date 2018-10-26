@@ -8,13 +8,19 @@
 
 import Foundation
 
-struct Conversation {
+class Conversation {
     var name: String?
     var message: String?
     var date: Date?
     var online: Bool
     var hasUnreadMessages: Bool
-    var messageHistory: [Message]
+    var messageHistory: [Message] = []
+    
+    init(name: String?) {
+        self.name = name
+        online = true
+        hasUnreadMessages = false
+    }
     
     enum Message {
         case incoming(String)

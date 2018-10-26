@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		39044E1D216FC49500B89573 /* ThemesVC delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39044E1C216FC49500B89573 /* ThemesVC delegate.swift */; };
 		39044E1F21713F5300B89573 /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = 39044E1E21713F5300B89573 /* Themes.m */; };
+		3954D84321824C8D006E8AE3 /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84221824C8D006E8AE3 /* Communicator.swift */; };
+		3954D84521824CA5006E8AE3 /* CommunicatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84421824CA5006E8AE3 /* CommunicatorDelegate.swift */; };
+		3954D84721824F7E006E8AE3 /* MultipeerCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84621824F7E006E8AE3 /* MultipeerCommunicator.swift */; };
+		3954D84C2182F9B6006E8AE3 /* MC extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84B2182F9B6006E8AE3 /* MC extensions.swift */; };
+		3954D84E218319B0006E8AE3 /* CommunicatonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */; };
+		3954D85221834B4D006E8AE3 /* CommunicationIntegrate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D85121834B4D006E8AE3 /* CommunicationIntegrate.swift */; };
 		398A8F2C2167B9E700FB7EF1 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398A8F2B2167B9E700FB7EF1 /* ConversationViewController.swift */; };
 		398A8F2F2167CF4100FB7EF1 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398A8F2E2167CF4100FB7EF1 /* MessageTableViewCell.swift */; };
 		398A8F312167D94F00FB7EF1 /* Conversation TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */; };
@@ -42,6 +48,12 @@
 		39044E1B216FB82800B89573 /* ThemesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewControllerDelegate.h; sourceTree = "<group>"; };
 		39044E1C216FC49500B89573 /* ThemesVC delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemesVC delegate.swift"; sourceTree = "<group>"; };
 		39044E1E21713F5300B89573 /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
+		3954D84221824C8D006E8AE3 /* Communicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communicator.swift; sourceTree = "<group>"; };
+		3954D84421824CA5006E8AE3 /* CommunicatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicatorDelegate.swift; sourceTree = "<group>"; };
+		3954D84621824F7E006E8AE3 /* MultipeerCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerCommunicator.swift; sourceTree = "<group>"; };
+		3954D84B2182F9B6006E8AE3 /* MC extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MC extensions.swift"; sourceTree = "<group>"; };
+		3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicatonManager.swift; sourceTree = "<group>"; };
+		3954D85121834B4D006E8AE3 /* CommunicationIntegrate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationIntegrate.swift; sourceTree = "<group>"; };
 		398A8F2B2167B9E700FB7EF1 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		398A8F2E2167CF4100FB7EF1 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		398A8F302167D94F00FB7EF1 /* Conversation TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversation TableView.swift"; sourceTree = "<group>"; };
@@ -90,6 +102,35 @@
 			path = extension;
 			sourceTree = "<group>";
 		};
+		3954D8482182F981006E8AE3 /* Communication Models */ = {
+			isa = PBXGroup;
+			children = (
+				3954D8492182F992006E8AE3 /* Protocols */,
+				3954D84A2182F99D006E8AE3 /* MultipeerCommunicator */,
+				3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */,
+				3954D85121834B4D006E8AE3 /* CommunicationIntegrate.swift */,
+			);
+			path = "Communication Models";
+			sourceTree = "<group>";
+		};
+		3954D8492182F992006E8AE3 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3954D84221824C8D006E8AE3 /* Communicator.swift */,
+				3954D84421824CA5006E8AE3 /* CommunicatorDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3954D84A2182F99D006E8AE3 /* MultipeerCommunicator */ = {
+			isa = PBXGroup;
+			children = (
+				3954D84621824F7E006E8AE3 /* MultipeerCommunicator.swift */,
+				3954D84B2182F9B6006E8AE3 /* MC extensions.swift */,
+			);
+			path = MultipeerCommunicator;
+			sourceTree = "<group>";
+		};
 		398A8F2D2167BD0500FB7EF1 /* ConversationViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +150,7 @@
 				39DAF668217B08610043394F /* Profile.swift */,
 				39DAF66A217B0DF30043394F /* DataManager.swift */,
 				39DAF66C217B77D60043394F /* OperationDataManager.swift */,
+				3954D8482182F981006E8AE3 /* Communication Models */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3954D84321824C8D006E8AE3 /* Communicator.swift in Sources */,
 				399C3CA82166281500237FC4 /* Conversation.swift in Sources */,
 				39CD89F521554BB600D7A2BA /* CustomStringConvertible.swift in Sources */,
 				398A8F2C2167B9E700FB7EF1 /* ConversationViewController.swift in Sources */,
@@ -318,12 +361,17 @@
 				398A8F2F2167CF4100FB7EF1 /* MessageTableViewCell.swift in Sources */,
 				399C3CAA2166291D00237FC4 /* ConversationListViewController.swift in Sources */,
 				39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */,
+				3954D84C2182F9B6006E8AE3 /* MC extensions.swift in Sources */,
+				3954D85221834B4D006E8AE3 /* CommunicationIntegrate.swift in Sources */,
+				3954D84721824F7E006E8AE3 /* MultipeerCommunicator.swift in Sources */,
 				39CD89FC2156495900D7A2BA /* Logger.swift in Sources */,
 				39044E1D216FC49500B89573 /* ThemesVC delegate.swift in Sources */,
 				39B4E56E21735C8000772481 /* ThemesViewController.m in Sources */,
 				39DDEB73215D36880028EC77 /* ImagePickerDelegate.swift in Sources */,
 				39DAF66D217B77D60043394F /* OperationDataManager.swift in Sources */,
 				39DAF669217B08610043394F /* Profile.swift in Sources */,
+				3954D84E218319B0006E8AE3 /* CommunicatonManager.swift in Sources */,
+				3954D84521824CA5006E8AE3 /* CommunicatorDelegate.swift in Sources */,
 				398A8F312167D94F00FB7EF1 /* Conversation TableView.swift in Sources */,
 				399C3CAE216681BF00237FC4 /* ConversationTableViewCell.swift in Sources */,
 			);
