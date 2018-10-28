@@ -31,6 +31,8 @@ class ConversationViewController: UIViewController {
         
         scrollingToBottom()
         sendButton.layer.cornerRadius = sendButton.frame.width * 0.1
+        sendButton.layer.borderWidth = 2
+        sendButton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         sendButton.clipsToBounds = true
         sendButton.isEnabled = false
         conversation.hasUnreadMessages = false
@@ -73,7 +75,7 @@ class ConversationViewController: UIViewController {
     }
     
     func scrollingToBottom() {
-        if conversation.messageHistory.count != 0 {
+        if !conversation.messageHistory.isEmpty {
             let indexPath = IndexPath(row: conversation.messageHistory.count - 1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }

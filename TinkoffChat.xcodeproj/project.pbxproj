@@ -111,7 +111,6 @@
 				3954D8492182F992006E8AE3 /* Protocols */,
 				3954D84A2182F99D006E8AE3 /* MultipeerCommunicator */,
 				3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */,
-				3954D85121834B4D006E8AE3 /* CommunicationIntegrate.swift */,
 			);
 			path = "Communication Models";
 			sourceTree = "<group>";
@@ -120,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				3954D84221824C8D006E8AE3 /* Communicator.swift */,
+				3954D85121834B4D006E8AE3 /* CommunicationIntegrate.swift */,
 				3954D84421824CA5006E8AE3 /* CommunicatorDelegate.swift */,
 			);
 			path = Protocols;

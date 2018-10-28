@@ -14,6 +14,7 @@ extension ConversationViewController: CommunicationIntegrate {
         if !conversation.online {
             sendButton.isEnabled = false
         }
+        conversation.hasUnreadMessages = false
         tableView.reloadData()
         scrollingToBottom()
     }

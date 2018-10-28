@@ -117,7 +117,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qfn-Bk-hkY">
-                                <rect key="frame" x="0.0" y="111" width="320" height="404"/>
+                                <rect key="frame" x="0.0" y="111" width="320" height="405"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MessageIncomingCell" id="JZZ-3p-DmX" customClass="MessageTableViewCell" customModule="TinkoffChat" customModuleProvider="target">
@@ -212,24 +212,25 @@
                                     <outlet property="delegate" destination="pjh-5w-TNc" id="9SU-8m-MKX"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="cuJ-JF-PdE">
-                                <rect key="frame" x="10" y="525" width="300" height="33"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="cuJ-JF-PdE">
+                                <rect key="frame" x="5" y="526" width="310" height="32"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Сообщение" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MxT-8z-bJP">
-                                        <rect key="frame" x="0.0" y="0.0" width="209" height="33"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="208" height="32"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <connections>
                                             <action selector="messageTextChanged:" destination="pjh-5w-TNc" eventType="editingChanged" id="HeL-78-VL9"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zna-Ue-FWl">
-                                        <rect key="frame" x="214" y="0.0" width="86" height="33"/>
-                                        <color key="backgroundColor" red="0.0" green="0.89925130210000004" blue="0.9897460938" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="211" y="0.0" width="99" height="32"/>
+                                        <color key="backgroundColor" red="0.28899937780000001" green="0.60989118870000003" blue="0.95833200220000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Отправить">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="sendButtonTapped:" destination="pjh-5w-TNc" eventType="touchUpInside" id="TDA-Sb-rc2"/>
@@ -240,13 +241,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="MxT-8z-bJP" firstAttribute="width" secondItem="xyD-Ow-kIK" secondAttribute="width" multiplier="0.65" id="Bhm-Zm-4nf"/>
                             <constraint firstItem="Qfn-Bk-hkY" firstAttribute="leading" secondItem="HsG-5q-8NP" secondAttribute="leading" id="Jkp-Vz-j9b"/>
-                            <constraint firstItem="HsG-5q-8NP" firstAttribute="trailing" secondItem="cuJ-JF-PdE" secondAttribute="trailing" constant="10" id="LO6-Um-YtD"/>
+                            <constraint firstItem="HsG-5q-8NP" firstAttribute="trailing" secondItem="cuJ-JF-PdE" secondAttribute="trailing" constant="5" id="LO6-Um-YtD"/>
                             <constraint firstItem="Qfn-Bk-hkY" firstAttribute="top" secondItem="HsG-5q-8NP" secondAttribute="top" id="NGx-ii-5jz"/>
                             <constraint firstItem="HsG-5q-8NP" firstAttribute="bottom" secondItem="cuJ-JF-PdE" secondAttribute="bottom" constant="10" id="NtM-fT-gip"/>
                             <constraint firstItem="cuJ-JF-PdE" firstAttribute="top" secondItem="Qfn-Bk-hkY" secondAttribute="bottom" constant="10" id="VFh-VJ-3ml"/>
                             <constraint firstItem="HsG-5q-8NP" firstAttribute="trailing" secondItem="Qfn-Bk-hkY" secondAttribute="trailing" id="dml-Gd-z0R"/>
-                            <constraint firstItem="cuJ-JF-PdE" firstAttribute="leading" secondItem="HsG-5q-8NP" secondAttribute="leading" constant="10" id="qx4-Bo-W7m"/>
+                            <constraint firstItem="cuJ-JF-PdE" firstAttribute="leading" secondItem="HsG-5q-8NP" secondAttribute="leading" constant="5" id="qx4-Bo-W7m"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HsG-5q-8NP"/>
                     </view>

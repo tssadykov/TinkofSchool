@@ -14,6 +14,8 @@ class CommunicationManager: CommunicatorDelegate {
     static let shared = CommunicationManager()
     var dataManager = GCDDataManager()
     var communicator: MultipeerCommunicator!
+    var conversationHolder: [String : Conversation] = [:]
+    
     
     private init() {
         dataManager.getProfile { (profile) in
@@ -21,7 +23,6 @@ class CommunicationManager: CommunicatorDelegate {
             self.communicator.delegate = self
         }
     }
-    var conversationHolder: [String : Conversation] = [:]
     
 
     func didFoundUser(userId: String, userName: String?) {
