@@ -12,20 +12,29 @@ class MultipeerCommunicator: NSObject, Communicator {
     
     var browser: MCNearbyServiceBrowser!
     var advertiser: MCNearbyServiceAdvertiser!
-    var session: MCSession!
-    var peerId: MCPeerID!
+    var localPeerId: MCPeerID!
     var sessionsDictionary: [String: MCSession] = [:]
-    
+
     weak var delegate: CommunicatorDelegate?
     
-    var online: Bool = false
+    var online: Bool = true {
+        didSet {
+            if online {
+                browser.startBrowsingForPeers()
+                advertiser.startAdvertisingPeer()
+            } else {
+                browser.stopBrowsingForPeers()
+                advertiser.stopAdvertisingPeer()
+            }
+        }
+    }
     
     init(profile: Profile) {
         super.init()
         
-        peerId = MCPeerID(displayName: UIDevice.current.name)
-        browser = MCNearbyServiceBrowser(peer: peerId, serviceType: "tinkoff-chat")
-        advertiser = MCNearbyServiceAdvertiser(peer: peerId, discoveryInfo: ["userName" : profile.name], serviceType: "tinkoff-chat")
+        localPeerId = MCPeerID(displayName: UIDevice.current.name)
+        browser = MCNearbyServiceBrowser(peer: localPeerId, serviceType: "tinkoff-chat")
+        advertiser = MCNearbyServiceAdvertiser(peer: localPeerId, discoveryInfo: ["userName" : profile.name], serviceType: "tinkoff-chat")
         browser.delegate = self
         advertiser.delegate = self
         advertiser.startAdvertisingPeer()
@@ -38,6 +47,7 @@ class MultipeerCommunicator: NSObject, Communicator {
         guard let data = try? JSONSerialization.data(withJSONObject: dictionaryToSend, options: .prettyPrinted) else { return }
         do {
             try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+            delegate?.didReceiveMessage(text: string, fromUser: localPeerId.displayName, toUser: userId)
             if let completion = completionHandler {
                 completion(true, nil)
             }
@@ -47,6 +57,15 @@ class MultipeerCommunicator: NSObject, Communicator {
             }
         }
     }
+    
+    func getSession(with peerID: MCPeerID) -> MCSession {
+        guard sessionsDictionary[peerID.displayName] == nil else { return sessionsDictionary[peerID.displayName]! }
+        let session = MCSession(peer: localPeerId, securityIdentity: nil, encryptionPreference: .none)
+        session.delegate = self
+        sessionsDictionary[peerID.displayName] = session
+        return sessionsDictionary[peerID.displayName]!
+    }
+    
     
     func generateMessageId() -> String {
         let string = "\(arc4random_uniform(UINT32_MAX))+\(Date.timeIntervalSinceReferenceDate)+\(arc4random_uniform(UINT32_MAX))".data(using: .utf8)?.base64EncodedString()

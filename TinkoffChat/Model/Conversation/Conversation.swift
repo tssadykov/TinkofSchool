@@ -12,11 +12,13 @@ class Conversation {
     var name: String?
     var message: String?
     var date: Date?
+    var userId: String
     var online: Bool
     var hasUnreadMessages: Bool
     var messageHistory: [Message] = []
     
-    init(name: String?) {
+    init(userId: String, name: String?) {
+        self.userId = userId
         self.name = name
         online = true
         hasUnreadMessages = false

@@ -15,23 +15,12 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return onlineConversations.count
-        default:
-            return offlineConversations.count
-        }
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let conversationCell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationTableViewCell
-        let conversation: Conversation
-        switch indexPath.section {
-        case 0:
-            conversation = onlineConversations[indexPath.row]
-        default:
-            conversation = offlineConversations[indexPath.row]
-        }
+        let conversation = conversations[indexPath.row]
         conversationCell.name = conversation.name
         conversationCell.message = conversation.message
         conversationCell.date = conversation.date

@@ -11,22 +11,27 @@ import Foundation
 class CommunicationManager: CommunicatorDelegate {
     
     weak var delegate: CommunicationIntegrate?
-    
-    let shared = CommunicationManager()
+    static let shared = CommunicationManager()
     var dataManager = GCDDataManager()
-    private var communicator: MultipeerCommunicator!
+    var communicator: MultipeerCommunicator!
+    
     private init() {
         dataManager.getProfile { (profile) in
             self.communicator = MultipeerCommunicator(profile: profile)
+            self.communicator.delegate = self
         }
     }
     var conversationHolder: [String : Conversation] = [:]
     
 
     func didFoundUser(userId: String, userName: String?) {
-        let conversation = Conversation(name: userName)
-        conversation.online = true
-        conversationHolder[userId] = conversation
+        if let conversation = conversationHolder[userId] {
+            conversation.online = true
+        } else {
+            let conversation = Conversation(userId: userId, name: userName)
+            conversation.online = true
+            conversationHolder[userId] = conversation
+        }
         guard let delegate = delegate else { return }
         DispatchQueue.main.async {
             delegate.updateUserData()
@@ -36,6 +41,7 @@ class CommunicationManager: CommunicatorDelegate {
     func didLostUser(userId: String) {
         if let conversation = conversationHolder[userId] {
             conversation.online = false
+            conversationHolder.removeValue(forKey: userId)
         }
         guard let delegate = delegate else { return }
         DispatchQueue.main.async {
@@ -64,6 +70,11 @@ class CommunicationManager: CommunicatorDelegate {
             conversation.date = Date()
             conversation.message = text
             conversation.hasUnreadMessages = true
+        } else if let conversation = conversationHolder[toUser] {
+            let message = Conversation.Message.outgoing(text)
+            conversation.messageHistory.append(message)
+            conversation.date = Date()
+            conversation.message = text
         }
         guard let delegate = delegate else { return }
         DispatchQueue.main.async {
