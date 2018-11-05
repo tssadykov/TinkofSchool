@@ -275,7 +275,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" axis="vertical" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="bFO-jP-K3N">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="487.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="452.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xoM-bY-f0t">
                                                 <rect key="frame" x="32" y="0.0" width="256" height="256"/>
@@ -331,9 +331,9 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="304" height="0.0"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                         <connections>
-                                                            <action selector="nameTextChanged:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Kth-Oh-gby"/>
+                                                            <action selector="nameTextChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="rZE-hK-b9n"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -351,40 +351,25 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="304" height="0.0"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                         <connections>
-                                                            <action selector="descriptionTextChanged:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="1Qa-4w-G0k"/>
+                                                            <action selector="descriptionTextChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="ATe-cZ-cYY"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="bvb-ra-W0l">
-                                                <rect key="frame" x="8" y="392.5" width="304" height="0.0"/>
-                                                <subviews>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofw-qi-fuj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="35"/>
-                                                        <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" title="GCD"/>
-                                                        <connections>
-                                                            <action selector="gcdButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="34b-ye-QyI"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3lQ-P9-xI1">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="35"/>
-                                                        <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" title="Operation"/>
-                                                        <connections>
-                                                            <action selector="operationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VvE-AO-KrA"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5te-oA-spv">
+                                                <rect key="frame" x="8" y="375" width="304" height="45.5"/>
+                                                <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Сохранить">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="saveButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xfe-lG-5UL"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m48-et-MB9">
-                                                <rect key="frame" x="64" y="427.5" width="192" height="60"/>
+                                                <rect key="frame" x="64" y="392.5" width="192" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="aAr-um-GSa"/>
                                                 </constraints>
@@ -397,9 +382,9 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="bvb-ra-W0l" firstAttribute="width" secondItem="bFO-jP-K3N" secondAttribute="width" multiplier="0.95" id="56E-xw-qYs"/>
                                             <constraint firstItem="FL6-cm-ZjL" firstAttribute="width" secondItem="bFO-jP-K3N" secondAttribute="width" multiplier="0.95" id="kUI-Gw-TMY"/>
                                             <constraint firstItem="Ky0-6S-crc" firstAttribute="width" secondItem="FL6-cm-ZjL" secondAttribute="width" id="obO-u9-KLA"/>
+                                            <constraint firstItem="5te-oA-spv" firstAttribute="width" secondItem="FL6-cm-ZjL" secondAttribute="width" id="tve-Re-QRb"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -422,6 +407,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ItX-7B-o9B" secondAttribute="trailing" id="AP8-Ye-rr7"/>
                             <constraint firstItem="xoM-bY-f0t" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="MEp-kX-fP8"/>
                             <constraint firstItem="ItX-7B-o9B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oal-Ws-kAC"/>
+                            <constraint firstItem="5te-oA-spv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="a6J-p5-FOC"/>
                             <constraint firstItem="HlO-D1-D7s" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hHm-GW-g35"/>
                             <constraint firstItem="HlO-D1-D7s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mvh-D1-mUV"/>
                             <constraint firstItem="ItX-7B-o9B" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="p07-Pe-kJ5"/>
@@ -444,10 +430,9 @@
                         <outlet property="descriptionOfUserLabel" destination="tIr-Oc-gIf" id="gGb-WB-7ZJ"/>
                         <outlet property="descriptionOfUserTextField" destination="Y0y-nz-3f8" id="VEQ-MU-gh4"/>
                         <outlet property="editProfileButton" destination="m48-et-MB9" id="uv7-Nl-1vg"/>
-                        <outlet property="gcdButton" destination="ofw-qi-fuj" id="khy-7e-wHf"/>
                         <outlet property="nameOfUserLabel" destination="Y51-Q4-9hl" id="ifg-2v-qyZ"/>
                         <outlet property="nameTextField" destination="uB2-4Y-60d" id="hnf-pI-YXR"/>
-                        <outlet property="operationButton" destination="3lQ-P9-xI1" id="Tvf-Ot-478"/>
+                        <outlet property="saveButton" destination="5te-oA-spv" id="S2Y-lq-TXq"/>
                         <outlet property="scrollView" destination="ItX-7B-o9B" id="fgv-CI-Kwc"/>
                     </connections>
                 </viewController>

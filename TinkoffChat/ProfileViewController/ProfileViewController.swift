@@ -15,36 +15,34 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var descriptionOfUserLabel: UILabel!
     @IBOutlet weak var editProfileButton: UIButton!
     @IBOutlet weak var cameraIconView: UIView!
+    @IBOutlet var saveButton: UIButton!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var descriptionOfUserTextField: UITextField!
-    @IBOutlet var gcdButton: UIButton!
-    @IBOutlet var operationButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var scrollView: UIScrollView!
     var dataManager: DataManager!
     var operationDataManager = OperationDataManager()
-    var profile: Profile!
+    var appUser: AppUser!
     let gcdDataManager = GCDDataManager()
     var isPhotoSelected: Bool = false
     var isSaving: Bool = false
+    var storageManager = StorageManager()
     var isEdit: Bool = false {
         didSet {
             cameraIconView.isHidden = !cameraIconView.isHidden
             nameTextField.isHidden = !nameTextField.isHidden
-            gcdButton.isHidden = !gcdButton.isHidden
-            operationButton.isHidden = !operationButton.isHidden
+            saveButton.isHidden = !saveButton.isHidden
             descriptionOfUserTextField.isHidden = !descriptionOfUserTextField.isHidden
             if isEdit {
-                gcdButton.isEnabled = false
-                operationButton.isEnabled = false
+                saveButton.isEnabled = false
                 editProfileButton.setTitle("Отменить редактирование", for: .normal)
                 attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 17)!
                 attributesOfNameLabel[.foregroundColor] = UIColor.lightGray
                 attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
                 nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя", attributes: attributesOfNameLabel)
                 descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе", attributes: attributesOfDescriptionLabel)
-                nameTextField.text = profile.name
-                descriptionOfUserTextField.text = profile.description
+                nameTextField.text = appUser.name
+                descriptionOfUserTextField.text = appUser.descriptionUser
             } else {
                 attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 27)!
                 attributesOfNameLabel[.foregroundColor] = UIColor.black
@@ -119,15 +117,10 @@ class ProfileViewController: UIViewController {
         isEdit = !isEdit
     }
     
-    @IBAction func gcdButtonTapped(_ sender: UIButton) {
-        dataManager = gcdDataManager
+    @IBAction func saveButtonTapped(_ sender: UIButton) {
         saveProfile()
     }
     
-    @IBAction func operationButtonTapped(_ sender: UIButton) {
-        dataManager = operationDataManager
-        saveProfile()
-    }
     @IBAction func nameTextChanged(_ sender: UITextField) {
         handleEnablingSaveButtons()
     }
@@ -151,20 +144,14 @@ class ProfileViewController: UIViewController {
         editProfileButton.layer.borderWidth = 2.0
         editProfileButton.clipsToBounds = true
         
-        gcdButton.layer.cornerRadius = 10
-        gcdButton.layer.borderColor = UIColor.black.cgColor
-        gcdButton.layer.borderWidth = 2.0
-        gcdButton.clipsToBounds = true
-        
-        operationButton.layer.cornerRadius = 10
-        operationButton.layer.borderColor = UIColor.black.cgColor
-        operationButton.layer.borderWidth = 2.0
-        operationButton.clipsToBounds = true
+        saveButton.layer.cornerRadius = 10
+        saveButton.layer.borderColor = UIColor.black.cgColor
+        saveButton.layer.borderWidth = 2.0
+        saveButton.clipsToBounds = true
     }
     
     func handleEnablingSaveButtons() {
-        gcdButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)))
-        operationButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)))
+        saveButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != appUser.name) || (descriptionOfUserTextField.text != appUser.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != appUser.userImageData))
     }
     
     @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
@@ -173,35 +160,38 @@ class ProfileViewController: UIViewController {
     
     private func loadProfile() {
         editProfileButton.isHidden = true
-        dataManager = operationDataManager
         activityIndicator.startAnimating()
         registerNotifications()
-        gcdDataManager.getProfile { (profile) in
-            self.profile = profile
+        storageManager.loadAppUser() { (appUser) in
+            self.appUser = appUser
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
             self.editProfileButton.isHidden = false
-            self.isPhotoSelected = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)
+            self.isPhotoSelected = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0) != self.appUser.userImageData
             self.updateUI()
         }
     }
     
     private func updateUI() {
-        nameOfUserLabel.attributedText = NSAttributedString(string: profile.name, attributes: attributesOfNameLabel)
-        descriptionOfUserLabel.attributedText = NSAttributedString(string: profile.description, attributes: attributesOfDescriptionLabel)
-        avatarOfUserImageView.image = profile.userImage
+        nameOfUserLabel.attributedText = NSAttributedString(string: appUser.name!, attributes: attributesOfNameLabel)
+        descriptionOfUserLabel.attributedText = NSAttributedString(string: appUser.descriptionUser!, attributes: attributesOfDescriptionLabel)
+        avatarOfUserImageView.image = UIImage(data: appUser.userImageData!)
     }
     
     private func saveProfile() {
         isSaving = true
-        gcdButton.isEnabled = false
-        operationButton.isEnabled = false
+        saveButton.isEnabled = false
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        let newProfile = Profile(name: nameTextField.text!, description: descriptionOfUserTextField.text!, userImage: avatarOfUserImageView.image!)
-        dataManager.saveProfile(newProfile: newProfile, oldProfile: profile) { (error) in
+        let name = nameTextField.text
+        let description = descriptionOfUserTextField.text
+        // если одно и то же изображение сжимать и разжимать несколько раз, то его Data в сжатом варианте будет отлична от оригинала
+        let imageData = isPhotoSelected ? avatarOfUserImageView.image?.jpegData(compressionQuality: 1.0) : UIImage(named: "placeholder-user")?.jpegData(compressionQuality: 1.0)
+        appUser.name = name
+        appUser.descriptionUser = description
+        appUser.userImageData = imageData
+        storageManager.saveAppUser { (error) in
             if error == nil {
-                self.profile = newProfile
                 let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ок", style: .default) { action in
                     if self.isEdit {
@@ -222,10 +212,10 @@ class ProfileViewController: UIViewController {
                 alert.addAction(repeatAction)
                 self.present(alert, animated: true, completion: nil)
             }
+            
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
-            self.gcdButton.isEnabled = true
-            self.operationButton.isEnabled = true
+            self.saveButton.isEnabled = true
             self.isSaving = false
         }
     }

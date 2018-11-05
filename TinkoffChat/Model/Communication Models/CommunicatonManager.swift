@@ -12,14 +12,18 @@ class CommunicationManager: CommunicatorDelegate {
     
     weak var delegate: CommunicationIntegrate?
     static let shared = CommunicationManager()
-    var dataManager = GCDDataManager()
+    var storageManager = StorageManager()
     var communicator: MultipeerCommunicator!
     var conversationHolder: [String : Conversation] = [:]
     
     
     private init() {
-        dataManager.getProfile { (profile) in
-            self.communicator = MultipeerCommunicator(profile: profile)
+        storageManager.loadAppUser { (appUser) in
+            guard let appUser = appUser else {
+                assert(false, "Can not start browsing peers, because appUser is nil")
+                return
+            }
+            self.communicator = MultipeerCommunicator(profile: appUser)
             self.communicator.delegate = self
         }
     }

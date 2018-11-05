@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct GCDDataManager: DataManager {
+struct GCDDataManager {
     
     let documentsDirectory: URL
     let archiveURL: URL
@@ -53,15 +53,15 @@ struct GCDDataManager: DataManager {
         }
     }
     
-    func saveProfile(newProfile: Profile, oldProfile: Profile, completion: @escaping CompletionSaveHandler) {
+    func saveProfile(oldProfile: Profile, newProfile: Profile, completion: @escaping CompletionSaveHandler) {
         syncQueue.async {
             if newProfile.name != oldProfile.name {
                 self.saveNameWith(newProfile.name)
             }
-            if newProfile.description != oldProfile.name {
+            if newProfile.description != oldProfile.description {
                 self.saveDescriptionWith(newProfile.description)
             }
-            if newProfile.userImage.jpegData(compressionQuality: 1.0) != oldProfile.userImage.jpegData(compressionQuality: 1.0) {
+            if newProfile.userImage != oldProfile.userImage {
                 do {
                     try self.saveImageWith(newProfile.userImage)
                 } catch let error {

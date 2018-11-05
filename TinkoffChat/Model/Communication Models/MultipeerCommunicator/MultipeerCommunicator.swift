@@ -29,12 +29,12 @@ class MultipeerCommunicator: NSObject, Communicator {
         }
     }
     
-    init(profile: Profile) {
+    init(profile: AppUser) {
         super.init()
         
         localPeerId = MCPeerID(displayName: UIDevice.current.name)
         browser = MCNearbyServiceBrowser(peer: localPeerId, serviceType: "tinkoff-chat")
-        advertiser = MCNearbyServiceAdvertiser(peer: localPeerId, discoveryInfo: ["userName" : profile.name], serviceType: "tinkoff-chat")
+        advertiser = MCNearbyServiceAdvertiser(peer: localPeerId, discoveryInfo: ["userName" : profile.name ?? UIDevice.current.name], serviceType: "tinkoff-chat")
         browser.delegate = self
         advertiser.delegate = self
         advertiser.startAdvertisingPeer()
