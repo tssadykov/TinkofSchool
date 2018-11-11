@@ -6,7 +6,7 @@
 //  Copyright © 2018 Тимур. All rights reserved.
 //
 
-protocol CommunicationIntegrator : class {
+protocol CommunicationIntegrator: class {
     func updateUserData()
     func handleError(error: Error)
 }

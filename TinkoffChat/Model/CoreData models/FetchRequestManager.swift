@@ -9,10 +9,10 @@
 import CoreData
 
 class FetchRequestManager {
-    
+
     static let shared = FetchRequestManager()
     private init() { }
-    
+
     func fetchConversations() -> NSFetchRequest<Conversation> {
         let request: NSFetchRequest<Conversation> = Conversation.fetchRequest()
         //request.predicate = NSPredicate(format: "isOnline == YES")
@@ -21,31 +21,37 @@ class FetchRequestManager {
         request.sortDescriptors = [onlineSortDescriptor, dateSortDescriptor]
         return request
     }
-    
+
     func fetchOnlineConversations() -> NSFetchRequest<Conversation> {
         let request: NSFetchRequest<Conversation> = Conversation.fetchRequest()
         request.predicate = NSPredicate(format: "isOnline == YES")
         return request
     }
-    
-    func fetchConversationWith(id: String) -> NSFetchRequest<Conversation> {
+
+    func fetchConversationWith(conversationId: String) -> NSFetchRequest<Conversation> {
         let request: NSFetchRequest<Conversation> = Conversation.fetchRequest()
-        request.predicate = NSPredicate(format: "conversationId == %@", id)
+        request.predicate = NSPredicate(format: "conversationId == %@", conversationId)
         return request
     }
-    
-    func fetchUserWith(id: String) -> NSFetchRequest<User> {
+
+    func fetchNonEmptyOnlineConversations() -> NSFetchRequest<Conversation> {
+        let request: NSFetchRequest<Conversation> = Conversation.fetchRequest()
+        request.predicate = NSPredicate(format: "messageHistory.@count > 0 AND user.isOnline == 1")
+        return request
+    }
+
+    func fetchUserWith(userId: String) -> NSFetchRequest<User> {
         let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "userId == %@", id)
+        request.predicate = NSPredicate(format: "userId == %@", userId)
         return request
     }
-    
-    func fetchOnlineUser() -> NSFetchRequest<User> {
+
+    func fetchOnlineUsers() -> NSFetchRequest<User> {
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.predicate = NSPredicate(format: "isOnline == YES")
         return request
     }
-    
+
     func fetchMessagesFrom(conversationId: String) -> NSFetchRequest<Message> {
         let request: NSFetchRequest<Message> = Message.fetchRequest()
         request.predicate = NSPredicate(format: "conversationId == %@", conversationId)

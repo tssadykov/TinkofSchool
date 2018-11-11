@@ -7,16 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
-
     let logger = Logger.shared
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if let themeData = UserDefaults.standard.value(forKey: "Theme") as? Data, let theme = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(themeData) as? UIColor {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        if let themeData = UserDefaults.standard.value(forKey: "Theme") as? Data,
+            let theme = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(themeData) as? UIColor {
             UINavigationBar.appearance().barTintColor = theme
         } else {
             UINavigationBar.appearance().barTintColor = UIColor.green
@@ -45,10 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        
+
         logger.printStateLog(#function, to: "not running", didMoved: false)
     }
 
-
 }
-

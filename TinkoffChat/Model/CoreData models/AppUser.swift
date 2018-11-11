@@ -16,17 +16,19 @@ extension AppUser {
             return nil }
         return request
     }
-    
+
     static func insertAppUser(in context: NSManagedObjectContext) -> AppUser? {
-        guard let appUser = NSEntityDescription.insertNewObject(forEntityName: "AppUser", into: context) as? AppUser else {
+        guard let appUser = NSEntityDescription.insertNewObject(forEntityName: "AppUser",
+                                                                into: context) as? AppUser else {
             return nil
         }
-        appUser.name = UIDevice.current.name
         appUser.userImageData = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0)
         appUser.descriptionUser = ""
+        appUser.currentUser = User.insertUserWith(userId: UIDevice.current.name, in: context)
+        appUser.currentUser?.name = UIDevice.current.name
         return appUser
     }
-    
+
     static func getAppUser(in context: NSManagedObjectContext, completion: @escaping (AppUser?) -> Void) {
         context.perform {
             guard let model = context.persistentStoreCoordinator?.managedObjectModel else { return }

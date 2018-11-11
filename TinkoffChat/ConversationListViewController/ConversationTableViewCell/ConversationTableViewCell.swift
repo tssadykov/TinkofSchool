@@ -13,13 +13,13 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var dateLabel: UILabel!
     @IBOutlet private var messageLabel: UILabel!
-    
+
     var name: String? {
         didSet {
             nameLabel.text = name ?? "Без имени"
         }
     }
-    
+
     var message: String? {
         didSet {
             let fontName: String
@@ -29,11 +29,11 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
                 fontName = "Georgia"
             }
             let font = UIFont(name: fontName, size: 18)!
-            let attributedString = NSAttributedString(string: message ?? "No messages yet", attributes: [.font : font])
+            let attributedString = NSAttributedString(string: message ?? "No messages yet", attributes: [.font: font])
             messageLabel.attributedText = attributedString
         }
     }
-    
+
     var date: Date? {
         didSet {
             guard let date = date, message != nil else { dateLabel.text = ""; return }
@@ -47,7 +47,7 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
             dateLabel.text = dateFormatter.string(from: date)
         }
     }
-    
+
     var online: Bool = false {
         didSet {
             if online {
@@ -57,7 +57,7 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
             }
         }
     }
-    
+
     var hasUnreadMessages: Bool = false {
         didSet {
             guard let message = message else { return }

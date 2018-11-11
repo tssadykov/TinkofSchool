@@ -10,14 +10,14 @@ import UIKit
 import CoreData
 
 class ConversationViewController: UIViewController {
-    
+
     @IBOutlet var tableView: UITableView!
     @IBOutlet var messageTextField: UITextField!
     @IBOutlet var sendButton: UIButton!
     var conversation: Conversation!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     var fetchResultController: NSFetchedResultsController<Message>!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,10 +27,10 @@ class ConversationViewController: UIViewController {
         setupFetchController()
         setupKeyboard()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         scrollingToBottom()
         sendButton.layer.cornerRadius = sendButton.frame.width * 0.1
         sendButton.layer.borderWidth = 2
@@ -41,35 +41,42 @@ class ConversationViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = conversation.user?.name ?? "Без имени"
     }
-    
+
     private func setupKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(gesture:)))
         view.addGestureRecognizer(tapGesture)
         registerNotifications()
     }
-    
+
     private func setupFetchController() {
         guard let conversationId = conversation.conversationId else { return }
-        fetchResultController = NSFetchedResultsController(fetchRequest: FetchRequestManager.shared.fetchMessagesFrom(conversationId: conversationId), managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        let request = FetchRequestManager.shared.fetchMessagesFrom(conversationId: conversationId)
+        request.fetchBatchSize = 20
+        fetchResultController = NSFetchedResultsController(fetchRequest: request,
+                                                           managedObjectContext: CoreDataStack.shared.mainContext,
+                                                           sectionNameKeyPath: nil, cacheName: nil)
         fetchResultController.delegate = self
         do {
             try fetchResultController.performFetch()
         } catch {
-            
+
         }
     }
-    
+
     @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
     }
-    
+
     private func registerNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWiilHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWiilHidden),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     @objc private func keyboardWillShow(_ notification: NSNotification) {
-        guard let info = notification.userInfo, let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        guard let info = notification.userInfo,
+            let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardFrameValue.cgRectValue
         let keyboardSize = keyboardFrame.size
         bottomConstraint.constant = keyboardSize.height + 5 - view.safeAreaInsets.bottom
@@ -78,15 +85,14 @@ class ConversationViewController: UIViewController {
             self.scrollingToBottom()
         }
     }
-    
-    
+
     @objc private func keyboardWiilHidden() {
         self.bottomConstraint.constant = 10
         UIView.animate(withDuration: 0) {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     func scrollingToBottom() {
         guard let fetchedObjects = fetchResultController.fetchedObjects else { return }
         if !fetchedObjects.isEmpty {
@@ -94,8 +100,8 @@ class ConversationViewController: UIViewController {
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
-    //MARK: - User Interactions
-    
+    // MARK: - User Interactions
+
     @IBAction func messageTextChanged(_ sender: UITextField) {
         if messageTextField.text == "" {
             sendButton.isEnabled = false
@@ -103,7 +109,7 @@ class ConversationViewController: UIViewController {
             sendButton.isEnabled = true
         }
     }
-    
+
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         guard let text = messageTextField.text, let conversationId = conversation.conversationId else { return }
         CommunicationManager.shared.communicator?.sendMessage(string: text, to: conversationId) { succes, error in
@@ -114,12 +120,13 @@ class ConversationViewController: UIViewController {
             if let error = error {
                 print(error.localizedDescription)
                 self.view.endEditing(true)
-                let alert = UIAlertController(title: "Ошибка при отправке сообщения", message: nil, preferredStyle: .alert)
+                let alert = UIAlertController(title: "Ошибка при отправке сообщения",
+                                              message: nil, preferredStyle: .alert)
                 let action = UIAlertAction(title: "Ок", style: .default, handler: nil)
                 alert.addAction(action)
                 self.present(alert, animated: true, completion: nil)
             }
         }
     }
-    
+
 }

@@ -9,15 +9,15 @@
 import Foundation
 
 class Logger {
-    
+
     static let shared = Logger()
-    
+
     private var previousState: String = "not running"
-    
-    private init(){}
-    
+
+    private init() {}
+
     // логи печатаются, если выбрана конфигурация сборки - Debug (Задание со звёздочкой)
-    func printStateLog(_ functionName: String, to state: String, didMoved: Bool){
+    func printStateLog(_ functionName: String, to state: String, didMoved: Bool) {
         #if DEBUG
         if didMoved {
             print("Application moved from \(previousState) to \(state): \(functionName)")
@@ -27,14 +27,14 @@ class Logger {
         previousState = state
         #endif
     }
-    
+
     func printLog(name: String) {
         #if DEBUG
         print(name)
         #endif
     }
-    
-    func logThemeChanged(selectedTheme: UIColor){
+
+    func logThemeChanged(selectedTheme: UIColor) {
         #if DEBUG
         print("Selected theme is \(selectedTheme)")
         #endif

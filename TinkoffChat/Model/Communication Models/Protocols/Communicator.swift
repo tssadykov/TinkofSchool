@@ -6,7 +6,7 @@
 //  Copyright © 2018 Тимур. All rights reserved.
 //
 
-typealias MessageHandler = (_ succes: Bool, _ error: Error?) -> ()
+typealias MessageHandler = (_ succes: Bool, _ error: Error?) -> Void
 
 protocol Communicator {
     func sendMessage(string: String, to userId: String, completionHandler: MessageHandler?)

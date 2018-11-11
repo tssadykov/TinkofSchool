@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol MessageCellConfiguration : class {
-    var textMessage : String? {get set}
+protocol MessageCellConfiguration: class {
+    var textMessage: String? {get set}
 }

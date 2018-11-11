@@ -9,24 +9,24 @@
 import CoreData
 
 extension User {
-    
-    static func insertUserWith(id: String, in context: NSManagedObjectContext) -> User {
+
+    static func insertUserWith(userId: String, in context: NSManagedObjectContext) -> User {
         guard let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: context) as? User else {
             fatalError("Can't insert User")
         }
-        user.userId = id
+        user.userId = userId
         return user
     }
-    
-    static func findOrInsertUser(id: String, in context: NSManagedObjectContext) -> User? {
-        let request = FetchRequestManager.shared.fetchUserWith(id: id)
+
+    static func findOrInsertUser(userId: String, in context: NSManagedObjectContext) -> User? {
+        let request = FetchRequestManager.shared.fetchUserWith(userId: userId)
         do {
             let users = try context.fetch(request)
-            assert(users.count < 2, "Users with id \(id) more than 1")
+            assert(users.count < 2, "Users with id \(userId) more than 1")
             if !users.isEmpty {
                 return users.first!
             } else {
-                return User.insertUserWith(id:id, in: context)
+                return User.insertUserWith(userId: userId, in: context)
             }
         } catch {
             assertionFailure("Can't get users by a fetch. May be there is an incorrect fetch")

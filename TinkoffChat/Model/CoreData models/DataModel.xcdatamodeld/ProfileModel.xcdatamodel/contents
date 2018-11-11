@@ -2,7 +2,6 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AppUser" representedClassName="AppUser" syncable="YES" codeGenerationType="class">
         <attribute name="descriptionUser" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userImageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="currentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="appUser" inverseEntity="User" syncable="YES"/>
     </entity>
@@ -32,12 +31,12 @@
     </entity>
     <fetchRequest name="AppUser" entity="AppUser"/>
     <fetchRequest name="ConversationWithId" entity="Conversation" predicateString="conversationId == $conversationId"/>
-    <fetchRequest name="MessagesFromConversation" entity="Conversation" predicateString="conversationId == $conversationId" resultType="2"/>
-    <fetchRequest name="OnlineNonEmptyConversations" entity="Conversation" predicateString="message != nil AND isOnline == 0"/>
-    <fetchRequest name="UsersOnline" entity="User" predicateString="isOnline == 0"/>
+    <fetchRequest name="MessagesFromConversation" entity="Message" predicateString="conversationId == $conversationId" resultType="2"/>
+    <fetchRequest name="OnlineNonEmptyConversations" entity="Conversation" predicateString="messageHistory.@count &gt; 0 AND user.isOnline == 1"/>
+    <fetchRequest name="UsersOnline" entity="User" predicateString="isOnline == 1"/>
     <fetchRequest name="UserWithId" entity="User" predicateString="userId == $userId"/>
     <elements>
-        <element name="AppUser" positionX="5235.984375" positionY="-719.703125" width="168.34375" height="105"/>
+        <element name="AppUser" positionX="5235.984375" positionY="-719.703125" width="168.34375" height="90"/>
         <element name="Conversation" positionX="5803.6171875" positionY="-401.02734375" width="128" height="150"/>
         <element name="Message" positionX="5291.51953125" positionY="-364.96484375" width="128" height="133"/>
         <element name="User" positionX="5895" positionY="-630" width="128" height="120"/>

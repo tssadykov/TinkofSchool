@@ -11,5 +11,5 @@ import UIKit
 struct Profile {
     var name: String
     var description: String
-    var userImage: UIImage
+    var userImageData: Data
 }

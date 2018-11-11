@@ -9,20 +9,23 @@
 import CoreData
 
 extension Conversation {
-    
-    static func insertConversationWith(id: String, in context: NSManagedObjectContext) -> Conversation {
-        guard let conversation = NSEntityDescription.insertNewObject(forEntityName: "Conversation", into: context) as? Conversation else {
-            fatalError("Can't insert Conversation")
+    static func insertConversationWith(conversationId: String,
+                                       in context: NSManagedObjectContext) -> Conversation {
+        guard let conversation = NSEntityDescription.insertNewObject(forEntityName: "Conversation",
+                                                                     into: context)
+            as? Conversation else {
+                fatalError("Can't insert Conversation")
         }
-        conversation.conversationId = id
+        conversation.conversationId = conversationId
         return conversation
     }
-    
-    static func findConversationWith(id: String, in context: NSManagedObjectContext) -> Conversation? {
-        let fetchConversationWithId = FetchRequestManager.shared.fetchConversationWith(id: id)
+
+    static func findConversationWith(conversationId: String,
+                                     in context: NSManagedObjectContext) -> Conversation? {
+        let fetchConversationWithId = FetchRequestManager.shared.fetchConversationWith(conversationId: conversationId)
         do {
             let conversationsWithId = try context.fetch(fetchConversationWithId)
-            assert(conversationsWithId.count < 2, "Conversations with id: \(id) more than 1")
+            assert(conversationsWithId.count < 2, "Conversations with id: \(conversationId) more than 1")
             if !conversationsWithId.isEmpty {
                 let conversation = conversationsWithId.first!
                 return conversation
@@ -34,14 +37,15 @@ extension Conversation {
             return nil
         }
     }
-    
-    static func findOrInsertConversationWith(id: String, in context: NSManagedObjectContext) -> Conversation {
-        guard let conversation = Conversation.findConversationWith(id: id, in: context) else {
-            return Conversation.insertConversationWith(id:id, in: context)
+
+    static func findOrInsertConversationWith(conversationId: String,
+                                             in context: NSManagedObjectContext) -> Conversation {
+        guard let conversation = Conversation.findConversationWith(conversationId: conversationId, in: context) else {
+            return Conversation.insertConversationWith(conversationId: conversationId, in: context)
         }
         return conversation
     }
-    
+
     static func findOnlineConversations(in context: NSManagedObjectContext) -> [Conversation]? {
         let fetchRequest = FetchRequestManager.shared.fetchOnlineConversations()
         do {

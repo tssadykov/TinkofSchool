@@ -10,20 +10,19 @@ import Foundation
 import CoreData
 
 class CommunicationManager: CommunicatorDelegate {
-    
+
     weak var delegate: CommunicationIntegrator?
     static let shared = CommunicationManager()
     var storageManager = StorageManager()
     var communicator: MultipeerCommunicator?
-    
-    
+
     private init() {
         storageManager.getProfile { (profile) in
             self.communicator = MultipeerCommunicator(profile: profile)
             self.communicator?.delegate = self
         }
     }
-    
+
     func didStartSessions() {
         let saveContext = CoreDataStack.shared.saveContext
         saveContext.perform {
@@ -38,55 +37,59 @@ class CommunicationManager: CommunicatorDelegate {
         communicator.advertiser.stopAdvertisingPeer()
         communicator.browser.stopBrowsingForPeers()
     }
-    
+
     func startMultipeerWithUsers() {
         guard let communicator = communicator else { return }
         communicator.advertiser.startAdvertisingPeer()
         communicator.browser.startBrowsingForPeers()
     }
-    
+
     func didFoundUser(userId: String, userName: String?) {
         let saveContext = CoreDataStack.shared.saveContext
         saveContext.perform {
-            guard let user = User.findOrInsertUser(id: userId, in: saveContext) else { return }
-            let conversation = Conversation.findOrInsertConversationWith(id: userId, in: saveContext)
-            user.name = userName
-            user.isOnline = true
-            conversation.isOnline = true
-            conversation.user = user
+            autoreleasepool {
+                guard let user = User.findOrInsertUser(userId: userId, in: saveContext) else { return }
+                let conversation = Conversation.findOrInsertConversationWith(conversationId: userId, in: saveContext)
+                user.name = userName
+                user.isOnline = true
+                conversation.isOnline = true
+                conversation.user = user
+            }
             CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
     }
-    
+
     func didLostUser(userId: String) {
         let saveContext = CoreDataStack.shared.saveContext
         saveContext.perform {
-            let conversation = Conversation.findOrInsertConversationWith(id: userId, in: saveContext)
-            conversation.isOnline = false
-            conversation.user?.isOnline = false
+            autoreleasepool {
+                let conversation = Conversation.findOrInsertConversationWith(conversationId: userId, in: saveContext)
+                conversation.isOnline = false
+                conversation.user?.isOnline = false
+            }
             CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
     }
-    
+
     func failedToStartBrowsingForUsers(error: Error) {
         guard let delegate = delegate else { return }
         DispatchQueue.main.async {
             delegate.handleError(error: error)
         }
     }
-    
+
     func failedToStartAdvertising(error: Error) {
         guard let delegate = delegate else { return }
         DispatchQueue.main.async {
             delegate.handleError(error: error)
         }
     }
-    
+
     func didReceiveMessage(text: String, fromUser: String, toUser: String) {
         let saveContext = CoreDataStack.shared.saveContext
         saveContext.perform {
-            let message:Message
-            if let conversation = Conversation.findConversationWith(id: fromUser, in: saveContext) {
+            let message: Message
+            if let conversation = Conversation.findConversationWith(conversationId: fromUser, in: saveContext) {
                 message = Message.insertNewMessage(in: saveContext)
                 message.isIncoming = true
                 message.conversationId = conversation.conversationId
@@ -96,7 +99,7 @@ class CommunicationManager: CommunicatorDelegate {
                 conversation.hasUnreadMessages = true
                 conversation.addToMessageHistory(message)
                 conversation.lastMessage = message
-            } else if let conversation = Conversation.findConversationWith(id: toUser, in: saveContext) {
+            } else if let conversation = Conversation.findConversationWith(conversationId: toUser, in: saveContext) {
                 message = Message.insertNewMessage(in: saveContext)
                 message.isIncoming = false
                 message.conversationId = conversation.conversationId
