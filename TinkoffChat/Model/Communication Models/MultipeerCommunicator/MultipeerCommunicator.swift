@@ -38,8 +38,6 @@ class MultipeerCommunicator: NSObject, Communicator {
                                                discoveryInfo: ["userName": profile.name], serviceType: "tinkoff-chat")
         browser.delegate = self
         advertiser.delegate = self
-        advertiser.startAdvertisingPeer()
-        browser.startBrowsingForPeers()
     }
 
     func sendMessage(string: String, to userId: String, completionHandler: MessageHandler?) {

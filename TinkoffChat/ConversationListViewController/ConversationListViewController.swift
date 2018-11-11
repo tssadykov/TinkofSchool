@@ -10,15 +10,10 @@ import UIKit
 import CoreData
 
 class ConversationListViewController: UIViewController, CommunicationIntegrator {
-    func updateUserData() {
-    }
-
-    func handleError(error: Error) {
-        print("error")
-    }
 
     @IBOutlet var tableView: UITableView!
     var fetchResultController: NSFetchedResultsController<Conversation>!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,12 +23,13 @@ class ConversationListViewController: UIViewController, CommunicationIntegrator 
         request.fetchBatchSize = 20
         fetchResultController = NSFetchedResultsController(fetchRequest: request,
                                                            managedObjectContext: CoreDataStack.shared.mainContext,
-                                                           sectionNameKeyPath: "isOnline", cacheName: nil)
+                                                           sectionNameKeyPath: "isOnline",
+                                                           cacheName: nil)
         fetchResultController.delegate = self
         do {
             try fetchResultController.performFetch()
-        } catch let error {
-            print(error)
+        } catch {
+            assertionFailure("Error due perform fetch on fetchResultController")
         }
     }
 
@@ -41,26 +37,7 @@ class ConversationListViewController: UIViewController, CommunicationIntegrator 
         super.viewWillAppear(animated)
 
         CommunicationManager.shared.delegate = self
-        updateUserData()
     }
-    /*
-    private func distributionConversations() {
-        conversations.sort(by: sortConversation(firstConversation:secondConversation:))
-    }
-
-    private func sortConversation(firstConversation: Conversation, secondConversation: Conversation) -> Bool {
-        if let firstDate = firstConversation.date, let firstName = firstConversation.name {
-            if let secondDate = secondConversation.date, let secondName = firstConversation.name {
-                if firstDate.timeIntervalSinceNow != secondDate.timeIntervalSinceNow {
-                    return firstDate.timeIntervalSinceNow > secondDate.timeIntervalSinceNow
-                }
-                return firstName > secondName
-            }
-            return true
-        } else {
-            return false
-        }
-    }*/
 
     // MARK: - Navigation
 
@@ -95,4 +72,10 @@ class ConversationListViewController: UIViewController, CommunicationIntegrator 
 
     }
 
+    func handleError(error: Error) {
+        let alert = UIAlertController(title: "Проблемы с соединением", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ок", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
 }

@@ -17,7 +17,6 @@ class ConversationViewController: UIViewController {
     var conversation: Conversation!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     var fetchResultController: NSFetchedResultsController<Message>!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

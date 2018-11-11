@@ -7,6 +7,5 @@
 //
 
 protocol CommunicationIntegrator: class {
-    func updateUserData()
     func handleError(error: Error)
 }

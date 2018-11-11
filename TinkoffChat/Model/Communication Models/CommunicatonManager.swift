@@ -26,22 +26,22 @@ class CommunicationManager: CommunicatorDelegate {
     func didStartSessions() {
         let saveContext = CoreDataStack.shared.saveContext
         saveContext.perform {
-            guard let conversations = Conversation.findOnlineConversations(in: saveContext) else { return }
+            DispatchQueue.main.sync {
+                self.communicator?.online = false
+            }
+            guard let conversations = Conversation.findOnlineConversations(in: saveContext)
+                else {
+                    DispatchQueue.main.sync {
+                        self.communicator?.online = true
+                    }
+                    return
+            }
             conversations.forEach { $0.isOnline = false; $0.user?.isOnline = false }
             CoreDataStack.shared.performSave(in: saveContext, completion: nil)
+            DispatchQueue.main.sync {
+                self.communicator?.online = true
+            }
         }
-    }
-
-    func stopMultipeerWithUsers() {
-        guard let communicator = communicator else { return }
-        communicator.advertiser.stopAdvertisingPeer()
-        communicator.browser.stopBrowsingForPeers()
-    }
-
-    func startMultipeerWithUsers() {
-        guard let communicator = communicator else { return }
-        communicator.advertiser.startAdvertisingPeer()
-        communicator.browser.startBrowsingForPeers()
     }
 
     func didFoundUser(userId: String, userName: String?) {
