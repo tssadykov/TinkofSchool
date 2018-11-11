@@ -9,9 +9,7 @@
 import UIKit
 
 class MessageTableViewCell: UITableViewCell, MessageCellConfiguration {
-    
     @IBOutlet private var messageLabel: UILabel!
-    
     var textMessage: String? {
         didSet {
             messageLabel.text = textMessage

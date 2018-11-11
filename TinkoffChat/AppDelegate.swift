@@ -26,22 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        
+        CommunicationManager.shared.stopMultipeerWithUsers()
         logger.printStateLog(#function, to: "inactive", didMoved: false)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        
         logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        
         logger.printStateLog(#function, to: "inactive", didMoved: false)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        CommunicationManager.shared.didStartSessions()
+        CommunicationManager.shared.startMultipeerWithUsers()
         logger.printStateLog(#function, to: "\(UIApplication.shared.applicationState)", didMoved: true)
     }
 

@@ -7,35 +7,48 @@
 //
 
 import UIKit
+import CoreData
 
-class ConversationListViewController: UIViewController, CommunicationIntegrate {
+class ConversationListViewController: UIViewController, CommunicationIntegrator {
     func updateUserData() {
+    }
+    
+    /*func updateUserData() {
         conversations = Array(CommunicationManager.shared.conversationHolder.values)
         distributionConversations()
         tableView.reloadData()
-    }
+    }*/
     
     func handleError(error: Error) {
         print("error")
     }
     
-    @IBOutlet private var tableView: UITableView!
-    var conversations: [Conversation] = []
-    
+    @IBOutlet var tableView: UITableView!
+    var fetchResultController: NSFetchedResultsController<Conversation>!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        distributionConversations()
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
+        let request = FetchRequestManager.shared.fetchConversations()
+        request.fetchBatchSize = 20
+        fetchResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "isOnline", cacheName: nil)
+        fetchResultController.delegate = self
+        do {
+            try fetchResultController.performFetch()
+        } catch let error {
+            print(error)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         CommunicationManager.shared.delegate = self
         updateUserData()
     }
+    /*
     private func distributionConversations() {
         conversations.sort(by: sortConversation(firstConversation:secondConversation:))
     }
@@ -52,17 +65,15 @@ class ConversationListViewController: UIViewController, CommunicationIntegrate {
         } else {
             return false
         }
-    }
+    }*/
     
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ConversationSegue", let indexPath = sender as? IndexPath {
             let conversationViewController = segue.destination as! ConversationViewController
-            let conversation: Conversation
-            conversation = conversations[indexPath.row]
+            let conversation = fetchResultController.object(at: indexPath)
             conversationViewController.conversation = conversation
-            
             let backButton = UIBarButtonItem()
             backButton.title = "Назад"
             navigationItem.backBarButtonItem = backButton

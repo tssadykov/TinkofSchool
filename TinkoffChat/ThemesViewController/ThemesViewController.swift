@@ -12,20 +12,16 @@ typealias ColorChangedHandler = (UIColor) -> Void
 class ThemesViewController: UIViewController {
 
     @IBOutlet var themesButtons: [UIButton]!
-    
     private let model: Themes = Themes()
     var colorHandler: ColorChangedHandler!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.backgroundColor = navigationController?.navigationBar.barTintColor
     }
-    
     @IBAction func themeButtonTapped(_ sender: UIButton) {
         if sender == themesButtons[0] {
             colorHandler(model.theme1)

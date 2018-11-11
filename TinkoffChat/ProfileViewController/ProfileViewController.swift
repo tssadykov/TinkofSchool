@@ -20,13 +20,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet var descriptionOfUserTextField: UITextField!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var scrollView: UIScrollView!
-    var dataManager: DataManager!
+    var dataManager: DataManager! = StorageManager()
     var operationDataManager = OperationDataManager()
-    var appUser: AppUser!
+    var profile: Profile!
     let gcdDataManager = GCDDataManager()
     var isPhotoSelected: Bool = false
     var isSaving: Bool = false
-    var storageManager = StorageManager()
     var isEdit: Bool = false {
         didSet {
             cameraIconView.isHidden = !cameraIconView.isHidden
@@ -41,8 +40,8 @@ class ProfileViewController: UIViewController {
                 attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
                 nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя", attributes: attributesOfNameLabel)
                 descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе", attributes: attributesOfDescriptionLabel)
-                nameTextField.text = appUser.name
-                descriptionOfUserTextField.text = appUser.descriptionUser
+                nameTextField.text = profile.name
+                descriptionOfUserTextField.text = profile.description
             } else {
                 attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 27)!
                 attributesOfNameLabel[.foregroundColor] = UIColor.black
@@ -151,7 +150,7 @@ class ProfileViewController: UIViewController {
     }
     
     func handleEnablingSaveButtons() {
-        saveButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != appUser.name) || (descriptionOfUserTextField.text != appUser.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != appUser.userImageData))
+        saveButton.isEnabled = !isSaving && (nameTextField.text != "") && ((nameTextField.text != profile.name) || (descriptionOfUserTextField.text != profile.description) || (avatarOfUserImageView.image!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)))
     }
     
     @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
@@ -162,36 +161,32 @@ class ProfileViewController: UIViewController {
         editProfileButton.isHidden = true
         activityIndicator.startAnimating()
         registerNotifications()
-        storageManager.loadAppUser() { (appUser) in
-            self.appUser = appUser
+        dataManager.getProfile { (profile) in
+            self.profile = profile
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
             self.editProfileButton.isHidden = false
-            self.isPhotoSelected = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0) != self.appUser.userImageData
+            self.isPhotoSelected = UIImage(named: "placeholder-user")!.jpegData(compressionQuality: 1.0) != profile.userImage.jpegData(compressionQuality: 1.0)
             self.updateUI()
         }
     }
     
     private func updateUI() {
-        nameOfUserLabel.attributedText = NSAttributedString(string: appUser.name!, attributes: attributesOfNameLabel)
-        descriptionOfUserLabel.attributedText = NSAttributedString(string: appUser.descriptionUser!, attributes: attributesOfDescriptionLabel)
-        avatarOfUserImageView.image = UIImage(data: appUser.userImageData!)
+        nameOfUserLabel.attributedText = NSAttributedString(string: profile.name, attributes: attributesOfNameLabel)
+        descriptionOfUserLabel.attributedText = NSAttributedString(string: profile.description, attributes: attributesOfDescriptionLabel)
+        avatarOfUserImageView.image = profile.userImage
     }
     
     private func saveProfile() {
+        guard let name = nameTextField.text, let description = descriptionOfUserTextField.text, let image = avatarOfUserImageView.image else { return }
         isSaving = true
         saveButton.isEnabled = false
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        let name = nameTextField.text
-        let description = descriptionOfUserTextField.text
-        // если одно и то же изображение сжимать и разжимать несколько раз, то его Data в сжатом варианте будет отлична от оригинала
-        let imageData = isPhotoSelected ? avatarOfUserImageView.image?.jpegData(compressionQuality: 1.0) : UIImage(named: "placeholder-user")?.jpegData(compressionQuality: 1.0)
-        appUser.name = name
-        appUser.descriptionUser = description
-        appUser.userImageData = imageData
-        storageManager.saveAppUser { (error) in
+        let newProfile = Profile(name: name, description: description, userImage: image)
+        dataManager.saveProfile(newProfile: newProfile, oldProfile: profile) { (error) in
             if error == nil {
+                self.profile = newProfile
                 let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ок", style: .default) { action in
                     if self.isEdit {

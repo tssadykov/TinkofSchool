@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ConversationViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class ConversationViewController: UIViewController {
     @IBOutlet var sendButton: UIButton!
     var conversation: Conversation!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
-    
+    var fetchResultController: NSFetchedResultsController<Message>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,7 @@ class ConversationViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
         CommunicationManager.shared.delegate = self
+        setupFetchController()
         setupKeyboard()
     }
     
@@ -37,13 +39,24 @@ class ConversationViewController: UIViewController {
         sendButton.isEnabled = false
         conversation.hasUnreadMessages = false
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.title = conversation.name ?? "Без имени"
+        navigationItem.title = conversation.user?.name ?? "Без имени"
     }
     
     private func setupKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(gesture:)))
         view.addGestureRecognizer(tapGesture)
         registerNotifications()
+    }
+    
+    private func setupFetchController() {
+        guard let conversationId = conversation.conversationId else { return }
+        fetchResultController = NSFetchedResultsController(fetchRequest: FetchRequestManager.shared.fetchMessagesFrom(conversationId: conversationId), managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchResultController.delegate = self
+        do {
+            try fetchResultController.performFetch()
+        } catch {
+            
+        }
     }
     
     @objc func hideKeyboard(gesture: UITapGestureRecognizer) {
@@ -75,8 +88,9 @@ class ConversationViewController: UIViewController {
     }
     
     func scrollingToBottom() {
-        if !conversation.messageHistory.isEmpty {
-            let indexPath = IndexPath(row: conversation.messageHistory.count - 1, section: 0)
+        guard let fetchedObjects = fetchResultController.fetchedObjects else { return }
+        if !fetchedObjects.isEmpty {
+            let indexPath = IndexPath(row: fetchedObjects.count - 1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
@@ -85,14 +99,14 @@ class ConversationViewController: UIViewController {
     @IBAction func messageTextChanged(_ sender: UITextField) {
         if messageTextField.text == "" {
             sendButton.isEnabled = false
-        } else if conversation.online {
+        } else if conversation.isOnline {
             sendButton.isEnabled = true
         }
     }
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
-        guard let text = messageTextField.text else { return }
-        CommunicationManager.shared.communicator.sendMessage(string: text, to: conversation.userId) { succes, error in
+        guard let text = messageTextField.text, let conversationId = conversation.conversationId else { return }
+        CommunicationManager.shared.communicator?.sendMessage(string: text, to: conversationId) { succes, error in
             if succes {
                 self.messageTextField.text = ""
                 self.sendButton.isEnabled = false

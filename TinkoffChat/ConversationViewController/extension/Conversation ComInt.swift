@@ -8,17 +8,15 @@
 
 import UIKit
 
-extension ConversationViewController: CommunicationIntegrate {
-    
+extension ConversationViewController: CommunicationIntegrator {
+
     func updateUserData() {
-        if !conversation.online {
+        if !conversation.isOnline {
             sendButton.isEnabled = false
         }
         conversation.hasUnreadMessages = false
-        tableView.reloadData()
         scrollingToBottom()
     }
-    
     func handleError(error: Error) {
         self.view.endEditing(true)
         let alert = UIAlertController(title: "Проблемы с соединением", message: nil, preferredStyle: .alert)

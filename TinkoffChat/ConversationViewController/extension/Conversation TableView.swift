@@ -10,19 +10,21 @@ import UIKit
 
 extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversation?.messageHistory.count ?? 0
+        guard let sections = fetchResultController.sections else { print(")))="); return 0; }
+        print(sections[section].numberOfObjects)
+        return sections[section].numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let messageCell: MessageTableViewCell
-        switch conversation.messageHistory[indexPath.row] {
-        case .incoming(let message):
-            messageCell = tableView.dequeueReusableCell(withIdentifier: "MessageIncomingCell", for: indexPath) as! MessageTableViewCell
-            messageCell.textMessage = message
-        case .outgoing(let message):
-            messageCell = tableView.dequeueReusableCell(withIdentifier: "MessageOutgoingCell", for: indexPath) as! MessageTableViewCell
-            messageCell.textMessage = message
+        let message = fetchResultController.object(at: indexPath)
+        if message.isIncoming {
+            guard let messageCell = tableView.dequeueReusableCell(withIdentifier: "MessageIncomingCell", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
+            messageCell.textMessage = message.text
+            return messageCell
+        } else {
+            guard let messageCell = tableView.dequeueReusableCell(withIdentifier: "MessageOutgoingCell", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
+            messageCell.textMessage = message.text
+            return messageCell
         }
-        return messageCell
     }
 }

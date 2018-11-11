@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct OperationDataManager {
+struct OperationDataManager: DataManager {
     var documentsDirectory: URL
     var archiveURL: URL
     let operationQueue = OperationQueue()
@@ -72,7 +72,7 @@ class SaveProfileOperation: Operation {
         if newProfile.userImage.jpegData(compressionQuality: 1.0) != oldProfile.userImage.jpegData(compressionQuality: 1.0) {
             guard let imageData = newProfile.userImage.jpegData(compressionQuality: 1.0) else {
                 OperationQueue.main.addOperation {
-                    self.completionHandler(ImageError.convertDataError)
+                    self.completionHandler(SaveErrors.convertDataError)
                 }
                 return
             }

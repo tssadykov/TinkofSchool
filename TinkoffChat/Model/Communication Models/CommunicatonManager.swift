@@ -7,50 +7,64 @@
 //
 
 import Foundation
+import CoreData
 
 class CommunicationManager: CommunicatorDelegate {
     
-    weak var delegate: CommunicationIntegrate?
+    weak var delegate: CommunicationIntegrator?
     static let shared = CommunicationManager()
     var storageManager = StorageManager()
-    var communicator: MultipeerCommunicator!
-    var conversationHolder: [String : Conversation] = [:]
+    var communicator: MultipeerCommunicator?
     
     
     private init() {
-        storageManager.loadAppUser { (appUser) in
-            guard let appUser = appUser else {
-                assert(false, "Can not start browsing peers, because appUser is nil")
-                return
-            }
-            self.communicator = MultipeerCommunicator(profile: appUser)
-            self.communicator.delegate = self
+        storageManager.getProfile { (profile) in
+            self.communicator = MultipeerCommunicator(profile: profile)
+            self.communicator?.delegate = self
         }
     }
     
-
-    func didFoundUser(userId: String, userName: String?) {
-        if let conversation = conversationHolder[userId] {
-            conversation.online = true
-        } else {
-            let conversation = Conversation(userId: userId, name: userName)
-            conversation.online = true
-            conversationHolder[userId] = conversation
+    func didStartSessions() {
+        let saveContext = CoreDataStack.shared.saveContext
+        saveContext.perform {
+            guard let conversations = Conversation.findOnlineConversations(in: saveContext) else { return }
+            conversations.forEach { $0.isOnline = false; $0.user?.isOnline = false }
+            CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
-        guard let delegate = delegate else { return }
-        DispatchQueue.main.async {
-            delegate.updateUserData()
+    }
+
+    func stopMultipeerWithUsers() {
+        guard let communicator = communicator else { return }
+        communicator.advertiser.stopAdvertisingPeer()
+        communicator.browser.stopBrowsingForPeers()
+    }
+    
+    func startMultipeerWithUsers() {
+        guard let communicator = communicator else { return }
+        communicator.advertiser.startAdvertisingPeer()
+        communicator.browser.startBrowsingForPeers()
+    }
+    
+    func didFoundUser(userId: String, userName: String?) {
+        let saveContext = CoreDataStack.shared.saveContext
+        saveContext.perform {
+            guard let user = User.findOrInsertUser(id: userId, in: saveContext) else { return }
+            let conversation = Conversation.findOrInsertConversationWith(id: userId, in: saveContext)
+            user.name = userName
+            user.isOnline = true
+            conversation.isOnline = true
+            conversation.user = user
+            CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
     }
     
     func didLostUser(userId: String) {
-        if let conversation = conversationHolder[userId] {
-            conversation.online = false
-            conversationHolder.removeValue(forKey: userId)
-        }
-        guard let delegate = delegate else { return }
-        DispatchQueue.main.async {
-            delegate.updateUserData()
+        let saveContext = CoreDataStack.shared.saveContext
+        saveContext.perform {
+            let conversation = Conversation.findOrInsertConversationWith(id: userId, in: saveContext)
+            conversation.isOnline = false
+            conversation.user?.isOnline = false
+            CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
     }
     
@@ -69,21 +83,31 @@ class CommunicationManager: CommunicatorDelegate {
     }
     
     func didReceiveMessage(text: String, fromUser: String, toUser: String) {
-        if let conversation = conversationHolder[fromUser] {
-            let message = Conversation.Message.incoming(text)
-            conversation.messageHistory.append(message)
-            conversation.date = Date()
-            conversation.message = text
-            conversation.hasUnreadMessages = true
-        } else if let conversation = conversationHolder[toUser] {
-            let message = Conversation.Message.outgoing(text)
-            conversation.messageHistory.append(message)
-            conversation.date = Date()
-            conversation.message = text
-        }
-        guard let delegate = delegate else { return }
-        DispatchQueue.main.async {
-            delegate.updateUserData()
+        let saveContext = CoreDataStack.shared.saveContext
+        saveContext.perform {
+            let message:Message
+            if let conversation = Conversation.findConversationWith(id: fromUser, in: saveContext) {
+                message = Message.insertNewMessage(in: saveContext)
+                message.isIncoming = true
+                message.conversationId = conversation.conversationId
+                message.text = text
+                conversation.date = Date()
+                message.date = Date()
+                conversation.hasUnreadMessages = true
+                conversation.addToMessageHistory(message)
+                conversation.lastMessage = message
+            } else if let conversation = Conversation.findConversationWith(id: toUser, in: saveContext) {
+                message = Message.insertNewMessage(in: saveContext)
+                message.isIncoming = false
+                message.conversationId = conversation.conversationId
+                message.text = text
+                conversation.date = Date()
+                message.date = Date()
+                conversation.hasUnreadMessages = false
+                conversation.addToMessageHistory(message)
+                conversation.lastMessage = message
+            }
+            CoreDataStack.shared.performSave(in: saveContext, completion: nil)
         }
     }
 }

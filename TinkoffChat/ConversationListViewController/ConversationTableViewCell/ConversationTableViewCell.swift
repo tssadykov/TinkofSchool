@@ -20,7 +20,7 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
         }
     }
     
-    var message: String?  {
+    var message: String? {
         didSet {
             let fontName: String
             if message != nil {
@@ -68,7 +68,7 @@ class ConversationTableViewCell: UITableViewCell, ConversationCellConfiguration 
                 fontName = "Helvetica"
             }
             let font = UIFont(name: fontName, size: 18)!
-            let attributedString = NSAttributedString(string: message, attributes: [.font : font])
+            let attributedString = NSAttributedString(string: message, attributes: [.font: font])
             messageLabel.attributedText = attributedString
         }
     }

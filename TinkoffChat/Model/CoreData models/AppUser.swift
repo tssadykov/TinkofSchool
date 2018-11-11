@@ -10,7 +10,7 @@ import CoreData
 
 extension AppUser {
     static func getRequest(model: NSManagedObjectModel) -> NSFetchRequest<AppUser>? {
-        let template = "FetchRequestAppUser"
+        let template = "AppUser"
         guard let request = model.fetchRequestTemplate(forName: template) as? NSFetchRequest<AppUser> else {
             assert(false, "No template with typename \(template)")
             return nil }

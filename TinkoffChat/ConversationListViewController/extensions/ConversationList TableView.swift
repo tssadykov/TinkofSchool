@@ -11,31 +11,28 @@ import UIKit
 extension ConversationListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchResultController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
+        guard let sections = fetchResultController.sections else { return 0 }
+        return sections[section].numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let conversationCell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationTableViewCell
-        let conversation = conversations[indexPath.row]
-        conversationCell.name = conversation.name
-        conversationCell.message = conversation.message
+        let conversation = fetchResultController.object(at: indexPath)
+        conversationCell.name = conversation.user?.name
+        conversationCell.message = conversation.lastMessage?.text
         conversationCell.date = conversation.date
         conversationCell.hasUnreadMessages = conversation.hasUnreadMessages
-        conversationCell.online = conversation.online
+        conversationCell.online = conversation.isOnline
         return conversationCell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Online"
-        default:
-            return "History"
-        }
+        guard let sections = fetchResultController.sections else { return nil }
+        return sections[section].name == "1" ? "Online" : "History"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
