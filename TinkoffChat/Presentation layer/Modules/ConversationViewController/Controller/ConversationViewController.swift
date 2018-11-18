@@ -24,7 +24,6 @@ class ConversationViewController: UIViewController, CommunicationIntegrator {
 
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
-       // CommunicationManager.shared.delegate = self
         setupFetchController()
         setupKeyboard()
     }

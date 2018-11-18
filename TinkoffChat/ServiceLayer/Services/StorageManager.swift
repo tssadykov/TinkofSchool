@@ -13,6 +13,7 @@ class StorageManager: ProfileDataManager {
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
     }
+
     func getProfile(completion: @escaping CompletionProfileLoader) {
         AppUser.getAppUser(in: coreDataStack.saveContext) { (appUser) in
             let profile: Profile
