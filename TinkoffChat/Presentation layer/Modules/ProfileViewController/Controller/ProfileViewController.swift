@@ -103,6 +103,11 @@ class ProfileViewController: UIViewController {
             photoPickerAlertController.addAction(cameraAlertAction)
         }
 
+        let downloadImageAlertAction = UIAlertAction(title: "Загрузить изображение", style: .default) { (_) in
+            self.performSegue(withIdentifier: "DownloadImagesSegue", sender: nil)
+        }
+        photoPickerAlertController.addAction(downloadImageAlertAction)
+
         if isPhotoSelected {
             let deleteAlertAction = UIAlertAction(title: "Удалить фотографию", style: .destructive) { [weak self] _ in
                 guard let `self` = self else { return }
