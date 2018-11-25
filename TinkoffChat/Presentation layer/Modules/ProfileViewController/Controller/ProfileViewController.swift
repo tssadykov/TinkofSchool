@@ -31,23 +31,9 @@ class ProfileViewController: UIViewController {
             saveButton.isHidden = !saveButton.isHidden
             descriptionOfUserTextField.isHidden = !descriptionOfUserTextField.isHidden
             if isEdit {
-                saveButton.isEnabled = false
-                editProfileButton.setTitle("Отменить редактирование", for: .normal)
-                attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 17)!
-                attributesOfNameLabel[.foregroundColor] = UIColor.lightGray
-                attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
-                nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя",
-                                                                    attributes: attributesOfNameLabel)
-                descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе",
-                                                                           attributes: attributesOfDescriptionLabel)
-                nameTextField.text = profileInteractor.name
-                descriptionOfUserTextField.text = profileInteractor.description
+                updateEditMode()
             } else {
-                attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 27)!
-                attributesOfNameLabel[.foregroundColor] = UIColor.black
-                attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 27)!
-                editProfileButton.setTitle("Редактировать", for: .normal)
-                updateUI()
+                updateProfileMode()
             }
         }
     }
@@ -190,6 +176,28 @@ class ProfileViewController: UIViewController {
         avatarOfUserImageView.image = UIImage(data: profileInteractor.imageData)
     }
 
+    private func updateEditMode() {
+        saveButton.isEnabled = false
+        editProfileButton.setTitle("Отменить редактирование", for: .normal)
+        attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 17)!
+        attributesOfNameLabel[.foregroundColor] = UIColor.lightGray
+        attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 17)!
+        nameOfUserLabel.attributedText = NSAttributedString(string: "Имя пользователя",
+                                                            attributes: attributesOfNameLabel)
+        descriptionOfUserLabel.attributedText = NSAttributedString(string: "О себе",
+                                                                   attributes: attributesOfDescriptionLabel)
+        nameTextField.text = profileInteractor.name
+        descriptionOfUserTextField.text = profileInteractor.description
+    }
+
+    private func updateProfileMode() {
+        attributesOfNameLabel[.font] = UIFont(name: "Helvetica", size: 27)!
+        attributesOfNameLabel[.foregroundColor] = UIColor.black
+        attributesOfDescriptionLabel[.font] = UIFont(name: "Helvetica", size: 27)!
+        editProfileButton.setTitle("Редактировать", for: .normal)
+        updateUI()
+    }
+
     private func saveProfile() {
         guard let name = nameTextField.text, let description = descriptionOfUserTextField.text,
             let image = avatarOfUserImageView.image else { return }
@@ -203,10 +211,10 @@ class ProfileViewController: UIViewController {
             if error == nil {
                 let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ок", style: .default) { _ in
+                    UserDefaults.standard.set(name, forKey: "name")
                     if self.isEdit {
                         self.isEdit = false
                     } else {
-                        UserDefaults.standard.set(name, forKey: "name")
                         self.updateUI()
                     }
                 }
@@ -252,5 +260,25 @@ class ProfileViewController: UIViewController {
     @objc private func keyboardWiilHidden() {
         scrollView.contentInset = UIEdgeInsets.zero
         scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DownloadImagesSegue" {
+            guard let navigationController = segue.destination as? UINavigationController,
+                let loaderImageVC = navigationController.topViewController as? LoaderImageViewController else {
+                super.prepare(for: segue, sender: sender)
+                return
+            }
+            loaderImageVC.assembly = assembly
+            let imageLoaderInteractor = assembly.getImageLoaderInteractor()
+            imageLoaderInteractor.delegate = loaderImageVC
+            loaderImageVC.imageLoaderInteractor = imageLoaderInteractor
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+
+    @IBAction func unwindToProfile(segue: UIStoryboardSegue) {
+        handleEnablingSaveButtons()
     }
 }

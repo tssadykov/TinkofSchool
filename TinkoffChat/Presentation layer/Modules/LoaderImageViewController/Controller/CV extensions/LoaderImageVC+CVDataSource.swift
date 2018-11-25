@@ -10,7 +10,7 @@ import Foundation
 
 extension LoaderImageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 36
+        return imageLoaderInteractor.imageStorage?.imagesURL.count ?? 0
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -20,7 +20,17 @@ extension LoaderImageViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DownloadImageCell",
                                                             for: indexPath) as?
             DownloadImageCollectionViewCell else { return UICollectionViewCell() }
-
+        let imageRequest = imageLoaderInteractor.imageStorage!.imagesURL[indexPath.row]
+        guard let imageUrl = imageRequest.url else { return cell }
+        cell.url = imageUrl
+        imageLoaderInteractor.uploadImage(url: imageUrl) { (data) in
+            if let data = data, let image = UIImage(data: data), imageUrl == cell.url {
+                DispatchQueue.main.async {
+                    cell.downloadImage.image = image
+                    cell.imageUpload = true
+                }
+            }
+        }
         return cell
     }
 }

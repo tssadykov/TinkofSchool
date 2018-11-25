@@ -57,6 +57,12 @@
 		39E5350221A6D3370075D106 /* LoadImageVC+CVDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350121A6D3370075D106 /* LoadImageVC+CVDelegate.swift */; };
 		39E5350721A70EDE0075D106 /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350621A70EDE0075D106 /* DownloadImage.swift */; };
 		39E5350A21A714B70075D106 /* LoaderImageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350921A714B70075D106 /* LoaderImageInteractor.swift */; };
+		39E5350C21A734AD0075D106 /* ImageRequestsStorageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350B21A734AD0075D106 /* ImageRequestsStorageParser.swift */; };
+		39E5350E21A738C30075D106 /* RequestsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350D21A738C30075D106 /* RequestsFactory.swift */; };
+		39E5351021A7FBD30075D106 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5350F21A7FBD30075D106 /* Requests.swift */; };
+		39E5351221A7FEC90075D106 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5351121A7FEC90075D106 /* NetworkManager.swift */; };
+		39E5351421A9638F0075D106 /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5351321A9638F0075D106 /* ImageProvider.swift */; };
+		39E5351621A974060075D106 /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5351521A974060075D106 /* ImageDownloadManager.swift */; };
 		39F5A00E21A0307D00FDA03D /* ConversationFetchRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F5A00D21A0307D00FDA03D /* ConversationFetchRequester.swift */; };
 		39F5A01021A0311400FDA03D /* UserFetchRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F5A00F21A0311400FDA03D /* UserFetchRequester.swift */; };
 		39F5A01221A0319400FDA03D /* MessageFetchRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F5A01121A0319400FDA03D /* MessageFetchRequester.swift */; };
@@ -128,6 +134,12 @@
 		39E5350121A6D3370075D106 /* LoadImageVC+CVDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadImageVC+CVDelegate.swift"; sourceTree = "<group>"; };
 		39E5350621A70EDE0075D106 /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		39E5350921A714B70075D106 /* LoaderImageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderImageInteractor.swift; sourceTree = "<group>"; };
+		39E5350B21A734AD0075D106 /* ImageRequestsStorageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestsStorageParser.swift; sourceTree = "<group>"; };
+		39E5350D21A738C30075D106 /* RequestsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsFactory.swift; sourceTree = "<group>"; };
+		39E5350F21A7FBD30075D106 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		39E5351121A7FEC90075D106 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		39E5351321A9638F0075D106 /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
+		39E5351521A974060075D106 /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
 		39F5A00D21A0307D00FDA03D /* ConversationFetchRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationFetchRequester.swift; sourceTree = "<group>"; };
 		39F5A00F21A0311400FDA03D /* UserFetchRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFetchRequester.swift; sourceTree = "<group>"; };
 		39F5A01121A0319400FDA03D /* MessageFetchRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFetchRequester.swift; sourceTree = "<group>"; };
@@ -314,8 +326,12 @@
 		3999A66321A6AD2C00E9AF45 /* Network layer */ = {
 			isa = PBXGroup;
 			children = (
+				39E5350B21A734AD0075D106 /* ImageRequestsStorageParser.swift */,
 				3999A66121A69D1500E9AF45 /* RequestConfig.swift */,
+				39E5351321A9638F0075D106 /* ImageProvider.swift */,
 				3999A66421A6ADA800E9AF45 /* RequestSender.swift */,
+				39E5350D21A738C30075D106 /* RequestsFactory.swift */,
+				39E5350F21A7FBD30075D106 /* Requests.swift */,
 			);
 			path = "Network layer";
 			sourceTree = "<group>";
@@ -516,6 +532,8 @@
 				39DAF66A217B0DF30043394F /* ProfileDataManager.swift */,
 				397DAD86218CA95000E03925 /* StorageManager.swift */,
 				39DAF666217AFDAC0043394F /* GCDDataManager.swift */,
+				39E5351121A7FEC90075D106 /* NetworkManager.swift */,
+				39E5351521A974060075D106 /* ImageDownloadManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -711,6 +729,7 @@
 				3954D84321824C8D006E8AE3 /* Communicator.swift in Sources */,
 				39B81FAB218A1EF00065C997 /* DataModel.xcdatamodeld in Sources */,
 				39CD89F521554BB600D7A2BA /* CustomStringConvertible.swift in Sources */,
+				39E5351621A974060075D106 /* ImageDownloadManager.swift in Sources */,
 				39E5350721A70EDE0075D106 /* DownloadImage.swift in Sources */,
 				398A8F2C2167B9E700FB7EF1 /* ConversationViewController.swift in Sources */,
 				399C3CAC2166805000237FC4 /* ConversationList TableView.swift in Sources */,
@@ -720,7 +739,9 @@
 				39096B0421A1B986001AF5BA /* ConversationInteractor.swift in Sources */,
 				39044E1F21713F5300B89573 /* Themes.m in Sources */,
 				39373FA421A1DC4800BE620D /* ProfileInteractor.swift in Sources */,
+				39E5351021A7FBD30075D106 /* Requests.swift in Sources */,
 				39F5A01421A1697E00FDA03D /* RootAssembly.swift in Sources */,
+				39E5351221A7FEC90075D106 /* NetworkManager.swift in Sources */,
 				3999A67421A6D0AD00E9AF45 /* LoaderImageVC+CVDataSource.swift in Sources */,
 				3999A66521A6ADA800E9AF45 /* RequestSender.swift in Sources */,
 				397DAD8A218CB15100E03925 /* AppUser.swift in Sources */,
@@ -728,12 +749,15 @@
 				39F5A01B21A16E2C00FDA03D /* CoreAssembly.swift in Sources */,
 				39DAF66B217B0DF30043394F /* ProfileDataManager.swift in Sources */,
 				399C3CBB21673FCD00237FC4 /* MessageCellConfiguration.swift in Sources */,
+				39E5350E21A738C30075D106 /* RequestsFactory.swift in Sources */,
 				3999A67021A6CDC800E9AF45 /* DownloadImageCollectionViewCell.swift in Sources */,
 				39E5350A21A714B70075D106 /* LoaderImageInteractor.swift in Sources */,
 				39F5A01721A16CC800FDA03D /* ServiceAssembly.swift in Sources */,
 				39CD89AD2153E29F00D7A2BA /* ProfileViewController.swift in Sources */,
 				39E5350221A6D3370075D106 /* LoadImageVC+CVDelegate.swift in Sources */,
+				39E5351421A9638F0075D106 /* ImageProvider.swift in Sources */,
 				398A8F2F2167CF4100FB7EF1 /* MessageTableViewCell.swift in Sources */,
+				39E5350C21A734AD0075D106 /* ImageRequestsStorageParser.swift in Sources */,
 				399C3CAA2166291D00237FC4 /* ConversationListViewController.swift in Sources */,
 				39CD89AB2153E29F00D7A2BA /* AppDelegate.swift in Sources */,
 				3954D84C2182F9B6006E8AE3 /* MC extensions.swift in Sources */,

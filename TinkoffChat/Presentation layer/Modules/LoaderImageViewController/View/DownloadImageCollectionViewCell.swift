@@ -11,5 +11,6 @@ import UIKit
 class DownloadImageCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet var downloadImage: UIImageView!
-
+    var imageUpload: Bool = false
+    var url: URL!
 }

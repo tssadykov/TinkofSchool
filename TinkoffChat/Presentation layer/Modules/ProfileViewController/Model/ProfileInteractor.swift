@@ -19,17 +19,17 @@ protocol IProfileInteractor {
 }
 
 class ProfileInteractor: IProfileInteractor {
-    lazy var description: String = {
+    var description: String {
         return profile.description
-    }()
+    }
 
-    lazy var name: String = {
+    var name: String {
         return profile.name
-    }()
+    }
 
-    lazy var imageData: Data = {
+    var imageData: Data {
         return profile.userImageData
-    }()
+    }
 
     var profile: IProfile!
 

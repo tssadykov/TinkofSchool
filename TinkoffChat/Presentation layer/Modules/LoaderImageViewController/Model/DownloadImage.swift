@@ -8,26 +8,27 @@
 
 import Foundation
 
-protocol IDownloadImage {
-    var image: UIImage { get }
+protocol IImageRequestsStorage {
+    var imagesURL: [ImageRequest] { get }
 }
 
-struct DownloadImage: Codable, IDownloadImage {
-    var image: UIImage
+struct ImageRequestsStorage: IImageRequestsStorage, Codable {
+    var imagesURL: [ImageRequest]
 
     enum CodingKeys: String, CodingKey {
-        case image = "imageURL"
+        case imagesURL = "hits"
     }
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let data = try container.decode(Data.self, forKey: .image)
-        guard let image = UIImage(data: data) else { throw NSError() }
-        self.image = image
+}
+
+struct ImageRequest: Codable {
+    var url: URL?
+
+    enum CodingKeys: String, CodingKey {
+        case url = "userImageURL"
     }
 
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        guard let data = image.jpegData(compressionQuality: 1.0) else { throw NSError() }
-        try container.encode(data, forKey: .image)
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        url = try container.decode(URL.self, forKey: .url)
     }
 }
