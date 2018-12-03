@@ -8,7 +8,8 @@
 
 protocol ICommunicationManager: class, IUserDiscover, ICommunicationFailHandler, IMessageHandler {
 
-    var delegate: CommunicationIntegrator? { get set }
+    var handler: CommunicationHandler? { get set }
+    var updater: CommunicationUpdater? { get set }
     var communicator: Communicator { get }
     var coreDataStack: CoreDataStack { get }
     var userRequester: IUserFetchRequester { get }

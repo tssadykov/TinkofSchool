@@ -11,7 +11,8 @@ import CoreData
 
 class CommunicationManager: ICommunicationManager {
 
-    weak var delegate: CommunicationIntegrator?
+    weak var handler: CommunicationHandler?
+    weak var updater: CommunicationUpdater?
     var communicator: Communicator
     var coreDataStack: CoreDataStack
     var userRequester: IUserFetchRequester
@@ -66,6 +67,9 @@ class CommunicationManager: ICommunicationManager {
                 conversation.user = user
             }
             self.coreDataStack.performSave(in: saveContext, completion: nil)
+            DispatchQueue.main.async {
+                self.updater?.updateFoundedUser(userId: userId)
+            }
         }
     }
 
@@ -79,21 +83,29 @@ class CommunicationManager: ICommunicationManager {
                 conversation.isOnline = false
                 conversation.user?.isOnline = false
             }
-            self.coreDataStack.performSave(in: saveContext, completion: nil)
+            self.coreDataStack.performSave(in: saveContext, completion: { (error) in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.handler?.handleError(error: error)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.updater?.updateLostUser(userId: userId)
+                }
+            })
         }
     }
 
     func failedToStartBrowsingForUsers(error: Error) {
-        guard let delegate = delegate else { return }
         DispatchQueue.main.async {
-            delegate.handleError(error: error)
+            self.handler?.handleError(error: error)
         }
     }
 
     func failedToStartAdvertising(error: Error) {
-        guard let delegate = delegate else { return }
         DispatchQueue.main.async {
-            delegate.handleError(error: error)
+            self.handler?.handleError(error: error)
         }
     }
 

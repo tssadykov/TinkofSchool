@@ -8,10 +8,9 @@
 
 import CoreData
 
-typealias IConversationListFetcher = IConversationList & IFetchedResultSettuper
-protocol IConversationList {
-    var communicationManager: ICommunicationManager { get }
-    func setIntegrator(communicationIntegrator: CommunicationIntegrator)
+typealias IConversationListFetcher = IConversationHandlerSetter & IFetchedResultSettuper
+protocol IConversationHandlerSetter {
+    func setHandler(communicationHandler: CommunicationHandler)
 }
 
 @objc protocol IFetchedResultSettuper {
@@ -27,8 +26,8 @@ class ConversationListInteractor: IConversationListFetcher {
         self.communicationManager = communicationManager
     }
 
-    func setIntegrator(communicationIntegrator: CommunicationIntegrator) {
-        communicationManager.delegate = communicationIntegrator
+    func setHandler(communicationHandler: CommunicationHandler) {
+        communicationManager.handler = communicationHandler
     }
 
     func setupConversationsFetchedResultController() -> NSFetchedResultsController<Conversation> {

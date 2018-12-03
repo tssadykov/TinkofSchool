@@ -9,12 +9,16 @@
 import CoreData
 
 typealias IConversationInteractor = IMessageSender & IFetchedResultSettuper
+    & IConversationHandlerSetter & IConversationUpdaterSetter
 protocol IMessageSender {
-    var communicationManager: ICommunicationManager { get }
     func sendMessage(text: String, conversationId: String, completion: @escaping MessageHandler)
 }
 
+protocol IConversationUpdaterSetter {
+    func setUpdater(communicationUpdater: CommunicationUpdater)
+}
 class ConversationInteractor: IConversationInteractor {
+
     var communicationManager: ICommunicationManager
 
     init(communicationManager: ICommunicationManager) {
@@ -33,5 +37,13 @@ class ConversationInteractor: IConversationInteractor {
                                                            managedObjectContext: mainContext,
                                                            sectionNameKeyPath: nil, cacheName: nil)
         return fetchResultController
+    }
+
+    func setHandler(communicationHandler: CommunicationHandler) {
+        communicationManager.handler = communicationHandler
+    }
+
+    func setUpdater(communicationUpdater: CommunicationUpdater) {
+        communicationManager.updater = communicationUpdater
     }
 }

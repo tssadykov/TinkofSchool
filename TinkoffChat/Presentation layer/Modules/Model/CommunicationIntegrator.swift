@@ -7,11 +7,16 @@
 //
 import UIKit
 
-protocol CommunicationIntegrator: class {
+protocol CommunicationHandler: class {
     func handleError(error: Error)
 }
 
-extension CommunicationIntegrator where Self: UIViewController {
+protocol CommunicationUpdater: class {
+    func updateLostUser(userId: String)
+    func updateFoundedUser(userId: String)
+}
+
+extension CommunicationHandler where Self: UIViewController {
     func handleError(error: Error) {
         let alert = UIAlertController(title: "Проблемы с соединением", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Ок", style: .default, handler: nil)

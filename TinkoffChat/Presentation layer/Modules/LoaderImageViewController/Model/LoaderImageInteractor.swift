@@ -10,8 +10,7 @@ import Foundation
 
 protocol IImageLoaderInteractor: class {
     var delegate: ImageLoaderDelegate? { get set }
-    var imageStorage: IImageRequestsStorage? { get set }
-    var imageDownloadManager: IImageDownloadManager { get }
+    var imageRequestsStorage: IImageRequestsStorage? { get set }
     func loadImageURLs()
     func uploadImage(url: URL, completionImageHandler: @escaping (Data?) -> Void)
 }
@@ -24,9 +23,9 @@ protocol ImageLoaderDelegate: class {
 class ImageLoaderInteractor: IImageLoaderInteractor, NetworkManagerDelegate {
 
     weak var delegate: ImageLoaderDelegate?
-    var imageStorage: IImageRequestsStorage?
+    var imageRequestsStorage: IImageRequestsStorage?
     var imageDownloadManager: IImageDownloadManager
-    var networkManager: NetworkManager<ImageRequestsStorageParser>
+    private var networkManager: NetworkManager<ImageRequestsStorageParser>
 
     init(networkManager: NetworkManager<ImageRequestsStorageParser>, imageDownloadManager: IImageDownloadManager) {
         self.imageDownloadManager = imageDownloadManager
@@ -44,13 +43,15 @@ class ImageLoaderInteractor: IImageLoaderInteractor, NetworkManagerDelegate {
 
     func modelDidLoad<Model>(model: Model) {
         guard let imageStorage = model as? IImageRequestsStorage else { return }
-        self.imageStorage = imageStorage
+        self.imageRequestsStorage = imageStorage
         DispatchQueue.main.async {
             self.delegate?.updateImages()
         }
     }
 
     func handleError(description: String) {
-        delegate?.handleEror()
+        DispatchQueue.main.async {
+            self.delegate?.handleEror()
+        }
     }
 }

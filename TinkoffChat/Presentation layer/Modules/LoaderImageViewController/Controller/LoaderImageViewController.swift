@@ -14,7 +14,7 @@ class LoaderImageViewController: UIViewController, ImageLoaderDelegate {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     var assembly: IPresentationAssembly!
     var imageLoaderInteractor: IImageLoaderInteractor!
-    let space: CGFloat = 10
+    let space: CGFloat = 15
     let itemsPerRow = 3
     override func viewDidLoad() {
         super.viewDidLoad()

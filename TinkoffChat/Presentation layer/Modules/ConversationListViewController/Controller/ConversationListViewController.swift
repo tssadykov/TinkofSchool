@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ConversationListViewController: UIViewController, CommunicationIntegrator {
+class ConversationListViewController: UIViewController, CommunicationHandler {
 
     @IBOutlet var tableView: UITableView!
     var fetchResultController: NSFetchedResultsController<Conversation>!
@@ -34,7 +34,7 @@ class ConversationListViewController: UIViewController, CommunicationIntegrator 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        conversationListInteractor.setIntegrator(communicationIntegrator: self)
+        conversationListInteractor.setHandler(communicationHandler: self)
     }
 
     // MARK: - Navigation

@@ -10,6 +10,7 @@
 		39044E1D216FC49500B89573 /* ThemesVC delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39044E1C216FC49500B89573 /* ThemesVC delegate.swift */; };
 		39044E1F21713F5300B89573 /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = 39044E1E21713F5300B89573 /* Themes.m */; };
 		39096B0421A1B986001AF5BA /* ConversationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39096B0321A1B986001AF5BA /* ConversationInteractor.swift */; };
+		390CD92921B4114500E5F666 /* CGPoint+operator+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390CD92821B4114500E5F666 /* CGPoint+operator+.swift */; };
 		39373FA421A1DC4800BE620D /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39373FA321A1DC4800BE620D /* ProfileInteractor.swift */; };
 		3954D84321824C8D006E8AE3 /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84221824C8D006E8AE3 /* Communicator.swift */; };
 		3954D84521824CA5006E8AE3 /* ICommunicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3954D84421824CA5006E8AE3 /* ICommunicatorManager.swift */; };
@@ -83,6 +84,7 @@
 		39044E1C216FC49500B89573 /* ThemesVC delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemesVC delegate.swift"; sourceTree = "<group>"; };
 		39044E1E21713F5300B89573 /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
 		39096B0321A1B986001AF5BA /* ConversationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationInteractor.swift; sourceTree = "<group>"; };
+		390CD92821B4114500E5F666 /* CGPoint+operator+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+operator+.swift"; sourceTree = "<group>"; };
 		39373FA321A1DC4800BE620D /* ProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
 		3954D84221824C8D006E8AE3 /* Communicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communicator.swift; sourceTree = "<group>"; };
 		3954D84421824CA5006E8AE3 /* ICommunicatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICommunicatorManager.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 				39CD89B12153E2A000D7A2BA /* Assets.xcassets */,
 				39CD89AE2153E29F00D7A2BA /* Main.storyboard */,
 				39CD89F621554BBC00D7A2BA /* UIApplicationState extensions */,
+				390CD92821B4114500E5F666 /* CGPoint+operator+.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				3954D84521824CA5006E8AE3 /* ICommunicatorManager.swift in Sources */,
 				398A8F312167D94F00FB7EF1 /* Conversation TableView.swift in Sources */,
 				39F5A01E21A1793900FDA03D /* ConversationListInteractor.swift in Sources */,
+				390CD92921B4114500E5F666 /* CGPoint+operator+.swift in Sources */,
 				399C3CAE216681BF00237FC4 /* ConversationTableViewCell.swift in Sources */,
 				39B81FA8218A1E7F0065C997 /* CoreDataStack.swift in Sources */,
 			);

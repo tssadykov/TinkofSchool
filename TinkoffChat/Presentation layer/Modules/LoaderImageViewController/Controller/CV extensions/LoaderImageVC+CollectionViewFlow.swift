@@ -15,7 +15,7 @@ extension LoaderImageViewController: UICollectionViewDelegateFlowLayout {
         let paddingSpace = space * CGFloat(itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / CGFloat(itemsPerRow)
-        return CGSize(width: widthPerItem, height: widthPerItem * 0.8)
+        return CGSize(width: widthPerItem, height: widthPerItem)
     }
 
     func collectionView(_ collectionView: UICollectionView,
