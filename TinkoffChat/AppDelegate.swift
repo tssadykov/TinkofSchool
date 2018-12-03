@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let logger = Logger.shared
     let rootAssembly = RootAssembly()
-    var topView: UIView!
     lazy var emitterLayer: CAEmitterLayer = {
         let emitterLayer = CAEmitterLayer()
         emitterLayer.emitterSize = window!.bounds.size
