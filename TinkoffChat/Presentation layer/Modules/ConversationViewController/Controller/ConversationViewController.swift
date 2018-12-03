@@ -155,8 +155,7 @@ class ConversationViewController: UIViewController, CommunicationHandler, Commun
         colorAnimation.beginTime = firstAnimation.beginTime
         colorAnimation.fromValue = sendButton.backgroundColor!.cgColor
         colorAnimation.toValue = newColor.cgColor
-        colorAnimation.duration = firstAnimation.duration + 0.5 + secondAnimation.duration
-        colorAnimation.fillMode = .backwards
+        colorAnimation.duration = 3.5
         sendButton.layer.add(group, forKey: nil)
         sendButton.layer.add(colorAnimation, forKey: nil)
         sendButton.backgroundColor = newColor
@@ -165,10 +164,10 @@ class ConversationViewController: UIViewController, CommunicationHandler, Commun
     func animateNameLabel() {
         let scaleFactor = conversation.isOnline ? 1.0 : 1.0/1.1
         let textColor = conversation.isOnline ? UIColor.green : UIColor.black
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
             self.nameLabel.transform = CGAffineTransform(scaleX: CGFloat(scaleFactor), y: CGFloat(scaleFactor))
             self.nameLabel.textColor = textColor
-        }
+        }, completion: nil)
     }
 
     func scrollingToBottom() {

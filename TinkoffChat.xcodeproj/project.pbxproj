@@ -315,6 +315,43 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		3952B2C721B59EE800ACBC09 /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				3954D84421824CA5006E8AE3 /* ICommunicatorManager.swift */,
+				3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */,
+			);
+			path = Communication;
+			sourceTree = "<group>";
+		};
+		3952B2C821B59F0400ACBC09 /* DataManagers */ = {
+			isa = PBXGroup;
+			children = (
+				39DAF66C217B77D60043394F /* OperationDataManager.swift */,
+				39DAF66A217B0DF30043394F /* ProfileDataManager.swift */,
+				397DAD86218CA95000E03925 /* StorageManager.swift */,
+				39DAF666217AFDAC0043394F /* GCDDataManager.swift */,
+			);
+			path = DataManagers;
+			sourceTree = "<group>";
+		};
+		3952B2C921B59F1C00ACBC09 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				39E5351121A7FEC90075D106 /* NetworkManager.swift */,
+				39E5351521A974060075D106 /* ImageDownloadManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3952B2CA21B59F3900ACBC09 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				39CD89FB2156495900D7A2BA /* Logger.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		398A8F2D2167BD0500FB7EF1 /* ConversationViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -527,15 +564,10 @@
 		39F5A01521A16CA100FDA03D /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				39DAF66C217B77D60043394F /* OperationDataManager.swift */,
-				39CD89FB2156495900D7A2BA /* Logger.swift */,
-				3954D84421824CA5006E8AE3 /* ICommunicatorManager.swift */,
-				3954D84D218319B0006E8AE3 /* CommunicatonManager.swift */,
-				39DAF66A217B0DF30043394F /* ProfileDataManager.swift */,
-				397DAD86218CA95000E03925 /* StorageManager.swift */,
-				39DAF666217AFDAC0043394F /* GCDDataManager.swift */,
-				39E5351121A7FEC90075D106 /* NetworkManager.swift */,
-				39E5351521A974060075D106 /* ImageDownloadManager.swift */,
+				3952B2CA21B59F3900ACBC09 /* Support */,
+				3952B2C721B59EE800ACBC09 /* Communication */,
+				3952B2C821B59F0400ACBC09 /* DataManagers */,
+				3952B2C921B59F1C00ACBC09 /* Network */,
 			);
 			path = Services;
 			sourceTree = "<group>";

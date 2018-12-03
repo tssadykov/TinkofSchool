@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .ended:
             emitterLayer.removeFromSuperlayer()
         default:
-            print("NOT BEGAN")
+            break
         }
     }
 }
