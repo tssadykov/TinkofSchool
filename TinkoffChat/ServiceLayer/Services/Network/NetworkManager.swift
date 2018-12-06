@@ -17,15 +17,16 @@ protocol INetworkManager {
 }
 
 protocol NetworkManagerDelegate: class {
-    func modelDidLoad<Model>(model: Model)
+    associatedtype Model
+    func modelDidLoad(model: Model)
     func handleError(description: String)
 }
 
-class NetworkManager<Parser: IParser> {
-    typealias Model = Parser.Model
+class NetworkManager<Parser: IParser, Delegate: NetworkManagerDelegate> where Parser.Model == Delegate.Model {
+    typealias Model = Delegate.Model
     var config: RequestConfig<Parser>
     var requestSender: IRequestSender
-    weak var delegate: NetworkManagerDelegate?
+    weak var delegate: Delegate?
 
     init(requestSender: IRequestSender, config: RequestConfig<Parser>) {
         self.config = config

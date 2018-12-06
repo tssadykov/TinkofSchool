@@ -12,7 +12,7 @@ protocol IServiceAssembly {
     var profileDataManager: ProfileDataManager { get }
     var logger: ILogger { get }
     var communicationManager: ICommunicationManager { get }
-    var imagesNetworkManager: NetworkManager<ImageRequestsStorageParser> { get }
+    var imagesNetworkManager: NetworkManager<ImageRequestsStorageParser, ImageLoaderInteractor> { get }
     var imageDownloadManager: IImageDownloadManager { get }
 }
 
@@ -31,7 +31,7 @@ class ServiceAssembly: NSObject, IServiceAssembly {
                                 userRequester: coreAssembly.userRequester,
                                 conversationRequester: coreAssembly.conversationRequester,
                                 messageRequester: coreAssembly.messageRequester)
-    lazy var imagesNetworkManager = NetworkManager<ImageRequestsStorageParser>(
+    lazy var imagesNetworkManager = NetworkManager<ImageRequestsStorageParser, ImageLoaderInteractor>(
         requestSender: coreAssembly.requestSender,
         config: coreAssembly.imageDwnldrConfig)
     lazy var imageDownloadManager: IImageDownloadManager = ImageDownloadManager(

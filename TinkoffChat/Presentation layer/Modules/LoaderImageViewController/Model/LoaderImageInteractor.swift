@@ -25,9 +25,11 @@ class ImageLoaderInteractor: IImageLoaderInteractor, NetworkManagerDelegate {
     weak var delegate: ImageLoaderDelegate?
     var imageRequestsStorage: IImageRequestsStorage?
     var imageDownloadManager: IImageDownloadManager
-    private var networkManager: NetworkManager<ImageRequestsStorageParser>
+    private var networkManager: NetworkManager<ImageRequestsStorageParser, ImageLoaderInteractor>
 
-    init(networkManager: NetworkManager<ImageRequestsStorageParser>, imageDownloadManager: IImageDownloadManager) {
+    init(networkManager: NetworkManager<ImageRequestsStorageParser,
+        ImageLoaderInteractor>,
+         imageDownloadManager: IImageDownloadManager) {
         self.imageDownloadManager = imageDownloadManager
         self.networkManager = networkManager
         self.networkManager.delegate = self
@@ -41,9 +43,8 @@ class ImageLoaderInteractor: IImageLoaderInteractor, NetworkManagerDelegate {
         imageDownloadManager.send(url: url, completionImageHandler: completionImageHandler)
     }
 
-    func modelDidLoad<Model>(model: Model) {
-        guard let imageStorage = model as? IImageRequestsStorage else { return }
-        self.imageRequestsStorage = imageStorage
+    func modelDidLoad(model: ImageRequestsStorage) {
+        self.imageRequestsStorage = model
         DispatchQueue.main.async {
             self.delegate?.updateImages()
         }
